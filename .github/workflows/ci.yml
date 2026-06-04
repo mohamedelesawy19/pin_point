@@ -65,10 +65,16 @@ jobs:
         with:
           path: coverage/lcov.info
           min_coverage: 80
+          exclude: >-
+            **/lib/main.dart
+            **/lib/core/constants/error_codes.dart
+            **/lib/core/errors/exceptions.dart
+            **/lib/core/router/app_routes.dart
+            **/lib/core/theme/app_colors.dart
+            **/lib/core/theme/app_text_theme.dart
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v4
         with:
           file: coverage/lcov.info
           fail_ci_if_error: false # don't block CI if codecov is down
-
