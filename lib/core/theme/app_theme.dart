@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'app_colors.dart';
+import 'app_text_theme.dart';
+
+abstract final class AppTheme {
+  static ThemeData get theme => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.light,
+    textTheme: AppTextTheme.textTheme,
+    colorScheme: const ColorScheme(
+      brightness: Brightness.light,
+      primary: AppColors.primary,
+      onPrimary: AppColors.onPrimary,
+      primaryContainer: AppColors.primaryContainer,
+      onPrimaryContainer: AppColors.onPrimaryContainer,
+      secondary: AppColors.secondary,
+      onSecondary: AppColors.onSecondary,
+      secondaryContainer: AppColors.secondaryContainer,
+      onSecondaryContainer: AppColors.onSecondaryContainer,
+      tertiary: AppColors.tertiary,
+      onTertiary: AppColors.onTertiary,
+      tertiaryContainer: AppColors.tertiaryContainer,
+      onTertiaryContainer: AppColors.onTertiaryContainer,
+      error: AppColors.error,
+      onError: AppColors.onError,
+      errorContainer: AppColors.errorContainer,
+      onErrorContainer: AppColors.onErrorContainer,
+      surface: AppColors.surface,
+      onSurface: AppColors.onSurface,
+      surfaceContainerHighest: AppColors.surfaceVariant,
+      onSurfaceVariant: AppColors.onSurfaceVariant,
+      outline: AppColors.outline,
+      outlineVariant: AppColors.outlineVariant,
+      shadow: Colors.black,
+      scrim: Colors.black,
+      inverseSurface: AppColors.onBackground,
+      onInverseSurface: AppColors.background,
+    ),
+  );
+}
