@@ -1,5 +1,8 @@
+// Package imports:
 import 'package:flutter/material.dart';
-import 'package:pin_point/core/theme/app_colors.dart';
+
+// Core imports:
+import '/core/theme/app_colors.dart';
 
 abstract final class AppTextTheme {
   static const textTheme = TextTheme(
