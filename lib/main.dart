@@ -2,11 +2,18 @@
 import 'package:flutter/material.dart';
 
 // Core imports:
+import '/core/di/injection_container.dart';
 import '/core/localization/localization_delegate.dart';
 import '/core/router/app_router.dart';
 import '/core/theme/app_theme.dart';
 
-void main() {
+void main() async {
+  // Initialize the Flutter binding
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the dependency injection container
+  await InjectionContainer.init();
+
   runApp(const PinPoint());
 }
 
