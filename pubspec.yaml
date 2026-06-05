@@ -32,6 +32,9 @@ dependencies:
   # Dependency Injection
   get_it: ^9.2.1
 
+  # Firebase
+  firebase_core: ^4.10.0
+
   # UI
   cupertino_icons: ^1.0.9
 

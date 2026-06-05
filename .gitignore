@@ -44,21 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Firebase
-firebase_options.dart
-
-# Firebase CLI
-.firebaserc
-
 # Service Accounts
 service-account.json
 *.serviceAccount.json
-
-# Android
-android/app/google-services.json
-
-# iOS
-ios/Runner/GoogleService-Info.plist
-
-# FlutterFire Config
-lib/firebase_options.dart
