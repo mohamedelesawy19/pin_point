@@ -1,0 +1,8 @@
+{
+  "@@locale": "ar",
+
+  "appName": "PinPoint",
+  "@appName": {
+    "description": "اسم التطبيق"
+  }
+}

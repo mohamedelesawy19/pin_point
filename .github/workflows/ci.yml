@@ -72,6 +72,7 @@ jobs:
             **/lib/core/router/app_routes.dart
             **/lib/core/theme/app_colors.dart
             **/lib/core/theme/app_text_theme.dart
+            **/lib/core/localization/generated/**
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v4
