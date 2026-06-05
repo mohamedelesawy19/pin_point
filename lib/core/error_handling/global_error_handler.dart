@@ -1,0 +1,67 @@
+// Dart imports:
+import 'dart:developer';
+
+// Package imports:
+import 'package:flutter/foundation.dart';
+
+/// Centralized application error handling.
+///
+/// Captures errors from three different sources:
+/// - FlutterError: Flutter framework/UI errors.
+/// - PlatformDispatcher: uncaught engine/platform errors.
+/// - Zone: uncaught async errors outside Flutter's framework.
+///
+/// Together they provide near-complete error coverage across the app.
+final class GlobalErrorHandler {
+  const GlobalErrorHandler._();
+
+  static void onFlutterError(FlutterErrorDetails details) {
+    if (kReleaseMode) {
+      // TODO: Send to Crashlytics/Sentry
+      return;
+    }
+
+    FlutterError.presentError(details);
+
+    _report(
+      details.exception,
+      details.stack ?? StackTrace.current,
+      source: 'FlutterError',
+    );
+  }
+
+  static bool onPlatformError(Object error, StackTrace stackTrace) {
+    if (kReleaseMode) {
+      // TODO: Send to Crashlytics/Sentry
+      return true;
+    }
+
+    _report(error, stackTrace, source: 'PlatformDispatcher');
+
+    return true;
+  }
+
+  static void onZoneError(Object error, StackTrace stackTrace) {
+    if (kReleaseMode) {
+      // TODO: Send to Crashlytics/Sentry
+      return;
+    }
+
+    _report(error, stackTrace, source: 'Zone');
+  }
+
+  static void _report(
+    Object error,
+    StackTrace stack, {
+    required String source,
+  }) {
+    log(
+      '❌ [$source]\n'
+      'Error: $error\n\n'
+      'StackTrace:\n$stack',
+      name: 'GlobalErrorHandler',
+      error: error,
+      stackTrace: stack,
+    );
+  }
+}
