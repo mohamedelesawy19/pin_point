@@ -12,7 +12,20 @@
           "package_name": "com.example.pin_point"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "570471288708-8iok43uj68sm2s79j8rhdn932i1lb0ii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pin_point",
+            "certificate_hash": "7e018f8fa8ce1a27f3eff66fc1b46b0bc3d55625"
+          }
+        },
+        {
+          "client_id": "570471288708-b1gglcdmp2kjmftirlbam8s9cfgnkdd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCryvyNueZE_WuljAvXr5UlVeALbTBFoS8"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570471288708-b1gglcdmp2kjmftirlbam8s9cfgnkdd0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "570471288708-nuk6ev2bqkhcqli04aemao5d18or3afk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pinPoint"
+              }
+            }
+          ]
         }
       }
     }

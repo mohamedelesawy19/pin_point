@@ -19,3 +19,11 @@ abstract class BaseException extends Equatable implements Exception {
 class StorageException extends BaseException {
   const StorageException({required super.message, super.code});
 }
+
+// ============================================================================
+// Authentication Exceptions
+// ============================================================================
+
+class AuthException extends BaseException {
+  const AuthException({required super.message, super.code});
+}
