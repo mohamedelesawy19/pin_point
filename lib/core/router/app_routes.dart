@@ -3,5 +3,10 @@ class AppRoutes {
 
   // ── Main Routes ──────────────────────────────────────────────────────
 
-  static const String initial = '/';
+  static const splash = '/';
+  static const login = '/login';
+  static const home = '/home';
+
+  // Declare which routes are accessible without authentication.
+  static const publicRoutes = {login};
 }
