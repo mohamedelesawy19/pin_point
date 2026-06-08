@@ -10,4 +10,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appName => 'PinPoint';
+
+  @override
+  String get tagline => 'Drop a Pin. Rule the World.';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get playAsGuest => 'Play as Guest';
 }

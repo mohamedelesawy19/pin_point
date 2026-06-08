@@ -103,6 +103,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PinPoint'**
   String get appName;
+
+  /// The tagline of the application, displayed on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Drop a Pin. Rule the World.'**
+  String get tagline;
+
+  /// Text for the button that allows users to sign in with their Google account
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// Text for the button that allows users to play without signing in
+  ///
+  /// In en, this message translates to:
+  /// **'Play as Guest'**
+  String get playAsGuest;
 }
 
 class _AppLocalizationsDelegate

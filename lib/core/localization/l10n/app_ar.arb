@@ -4,5 +4,17 @@
   "appName": "PinPoint",
   "@appName": {
     "description": "اسم التطبيق"
+  },
+  "tagline": "ضع دبوسك... وسيطر على العالم.",
+  "@tagline": {
+    "description": "الشعار الخاص بالتطبيق، المعروض على شاشة تسجيل الدخول"
+  },
+  "continueWithGoogle": "متابعة مع جوجل",
+  "@continueWithGoogle": {
+    "description": "نص الزر الذي يسمح للمستخدمين بتسجيل الدخول باستخدام حساب جوجل الخاص بهم"
+  },
+  "playAsGuest": "العب كضيف",
+  "@playAsGuest": {
+    "description": "نص الزر الذي يسمح للمستخدمين بالعب دون تسجيل الدخول"
   }
 }

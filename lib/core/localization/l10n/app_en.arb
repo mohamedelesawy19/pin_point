@@ -4,5 +4,17 @@
   "appName": "PinPoint",
   "@appName": {
     "description": "The name of the application"
+  },
+  "tagline": "Drop a Pin. Rule the World.",
+  "@tagline": {
+    "description": "The tagline of the application, displayed on the login screen"
+  },
+  "continueWithGoogle": "Continue with Google",
+  "@continueWithGoogle": {
+    "description": "Text for the button that allows users to sign in with their Google account"
+  },
+  "playAsGuest": "Play as Guest",
+  "@playAsGuest": {
+    "description": "Text for the button that allows users to play without signing in"
   }
 }

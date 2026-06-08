@@ -10,4 +10,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appName => 'PinPoint';
+
+  @override
+  String get tagline => 'ضع دبوسك... وسيطر على العالم.';
+
+  @override
+  String get continueWithGoogle => 'متابعة مع جوجل';
+
+  @override
+  String get playAsGuest => 'العب كضيف';
 }

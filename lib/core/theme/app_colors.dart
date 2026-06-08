@@ -2,44 +2,50 @@ import 'package:flutter/material.dart';
 
 abstract final class AppColors {
   // ── Brand ────────────────────────────────────────────────────────────────
-  static const primary = Color(0xFF006874);
-  static const onPrimary = Color(0xFFFFFFFF);
-  static const primaryContainer = Color(0xFF97F0FF);
-  static const onPrimaryContainer = Color(0xFF001F24);
 
-  static const secondary = Color(0xFF7B5800);
-  static const onSecondary = Color(0xFFFFFFFF);
-  static const secondaryContainer = Color(0xFFFFDD9A);
-  static const onSecondaryContainer = Color(0xFF261900);
+  static const primary = Color(0xFF2ED3FF);
+  static const onPrimary = Color(0xFF04111F);
+  static const primaryContainer = Color(0xFF114A66);
+  static const onPrimaryContainer = Color(0xFFD8F8FF);
 
-  static const tertiary = Color(0xFF8B4558);
-  static const onTertiary = Color(0xFFFFFFFF);
-  static const tertiaryContainer = Color(0xFFFFD9E3);
-  static const onTertiaryContainer = Color(0xFF3A0719);
+  static const secondary = Color(0xFFF5A623);
+  static const onSecondary = Color(0xFF2B1C00);
+  static const secondaryContainer = Color(0xFF5C4300);
+  static const onSecondaryContainer = Color(0xFFFFF0C8);
+
+  static const tertiary = Color(0xFFB56DFF);
+  static const onTertiary = Color(0xFF1D0A33);
+  static const tertiaryContainer = Color(0xFF43206D);
+  static const onTertiaryContainer = Color(0xFFF0DEFF);
 
   // ── Neutral ───────────────────────────────────────────────────────────────
-  static const background = Color(0xFFFAFDFD);
-  static const onBackground = Color(0xFF191C1D);
-  static const surface = Color(0xFFFAFDFD);
-  static const onSurface = Color(0xFF191C1D);
-  static const surfaceVariant = Color(0xFFDBE4E7);
-  static const onSurfaceVariant = Color(0xFF3F484B);
-  static const outline = Color(0xFF6F797B);
-  static const outlineVariant = Color(0xFFBFC8CB);
+
+  static const background = Color(0xFF0A1628);
+  static const onBackground = Color(0xFFF4F7FB);
+
+  static const surface = Color(0xFF0A1628);
+  static const onSurface = Color(0xFFF4F7FB);
+
+  static const surfaceVariant = Color(0xFF1A2C48);
+  static const onSurfaceVariant = Color(0xFFC2CFDD);
+
+  static const outline = Color(0xFF4D607D);
+  static const outlineVariant = Color(0xFF2B3D59);
 
   // ── Semantic ──────────────────────────────────────────────────────────────
-  static const error = Color(0xFFBA1A1A);
+
+  static const error = Color(0xFFFF5A5F);
   static const onError = Color(0xFFFFFFFF);
-  static const errorContainer = Color(0xFFFFDAD6);
-  static const onErrorContainer = Color(0xFF410002);
+  static const errorContainer = Color(0xFF5B1D25);
+  static const onErrorContainer = Color(0xFFFFD9DC);
 
-  static const success = Color(0xFF326B00);
-  static const onSuccess = Color(0xFFFFFFFF);
-  static const successContainer = Color(0xFFA6F56C);
-  static const onSuccessContainer = Color(0xFF0F2000);
+  static const success = Color(0xFF34E27A);
+  static const onSuccess = Color(0xFF032814);
+  static const successContainer = Color(0xFF145734);
+  static const onSuccessContainer = Color(0xFFD8FFE8);
 
-  static const warning = Color(0xFF7D5700);
-  static const onWarning = Color(0xFFFFFFFF);
-  static const warningContainer = Color(0xFFFFDEA5);
-  static const onWarningContainer = Color(0xFF271900);
+  static const warning = Color(0xFFFFA726);
+  static const onWarning = Color(0xFF2B1700);
+  static const warningContainer = Color(0xFF6A4200);
+  static const onWarningContainer = Color(0xFFFFE9C5);
 }
