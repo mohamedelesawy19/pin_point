@@ -15,6 +15,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tagline => 'ضع دبوسك... وسيطر على العالم.';
 
   @override
+  String get appDescription =>
+      'نافس أصدقاءك، وحدد مواقع أشهر المعالم، واجمع النقاط، وأثبت مهاراتك الجغرافية.';
+
+  @override
   String get continueWithGoogle => 'متابعة مع جوجل';
 
   @override

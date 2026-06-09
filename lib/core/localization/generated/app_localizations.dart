@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Drop a Pin. Rule the World.'**
   String get tagline;
 
+  /// A brief description of the application, used for app store listings and promotional materials
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge friends, pinpoint famous landmarks, earn points, and prove your geography skills worldwide.'**
+  String get appDescription;
+
   /// Text for the button that allows users to sign in with their Google account
   ///
   /// In en, this message translates to:

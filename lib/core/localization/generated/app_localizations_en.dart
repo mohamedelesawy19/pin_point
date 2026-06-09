@@ -15,6 +15,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tagline => 'Drop a Pin. Rule the World.';
 
   @override
+  String get appDescription =>
+      'Challenge friends, pinpoint famous landmarks, earn points, and prove your geography skills worldwide.';
+
+  @override
   String get continueWithGoogle => 'Continue with Google';
 
   @override
