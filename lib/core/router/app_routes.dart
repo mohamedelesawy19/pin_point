@@ -5,7 +5,7 @@ class AppRoutes {
 
   static const splash = '/';
   static const login = '/login';
-  static const home = '/home';
+  static const main = '/main';
 
   // Declare which routes are accessible without authentication.
   static const publicRoutes = {login};

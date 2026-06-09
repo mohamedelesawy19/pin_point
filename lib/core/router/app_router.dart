@@ -51,7 +51,7 @@ class AppRouter {
     } else {
       // Authenticated users should not be on public routes or splash screen.
       if (isOnSplash || isOnPublicRoute) {
-        return AppRoutes.home;
+        return AppRoutes.main;
       }
     }
 
