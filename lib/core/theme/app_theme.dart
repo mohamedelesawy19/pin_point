@@ -8,10 +8,10 @@ import '/core/theme/app_text_theme.dart';
 abstract final class AppTheme {
   static ThemeData get theme => ThemeData(
     useMaterial3: true,
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     textTheme: AppTextTheme.textTheme,
     colorScheme: const ColorScheme(
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
       primary: AppColors.primary,
       onPrimary: AppColors.onPrimary,
       primaryContainer: AppColors.primaryContainer,
