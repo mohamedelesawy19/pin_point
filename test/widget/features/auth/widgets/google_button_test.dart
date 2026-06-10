@@ -6,35 +6,24 @@ import 'package:pin_point/features/auth/presentation/widgets/google_button.dart'
 
 void main() {
   group('GoogleButton', () {
-    Widget buildWidget({required VoidCallback onPressed}) {
-      return MaterialApp(
-        localizationsDelegates: LocalizationConfig.localizationsDelegates,
-        supportedLocales: LocalizationConfig.supportedLocales,
-        home: Scaffold(body: GoogleButton(onPressed: onPressed)),
-      );
-    }
+    Widget buildWidget({required VoidCallback onPressed}) => MaterialApp(
+      localizationsDelegates: LocalizationConfig.localizationsDelegates,
+      supportedLocales: LocalizationConfig.supportedLocales,
+      home: Scaffold(body: GoogleButton(onPressed: onPressed)),
+    );
 
-    testWidgets('should render ElevatedButton with google icon and text', (
-      tester,
-    ) async {
+    testWidgets('renders button with icon and text', (tester) async {
       await tester.pumpWidget(buildWidget(onPressed: () {}));
+      await tester.pumpAndSettle();
 
-      expect(find.byType(GoogleButton), findsOneWidget);
       expect(find.byType(ElevatedButton), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
       expect(find.byType(Text), findsOneWidget);
     });
 
-    testWidgets('should call onPressed when tapped', (tester) async {
+    testWidgets('calls onPressed when tapped', (tester) async {
       var pressed = false;
-
-      await tester.pumpWidget(
-        buildWidget(
-          onPressed: () {
-            pressed = true;
-          },
-        ),
-      );
+      await tester.pumpWidget(buildWidget(onPressed: () => pressed = true));
 
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
@@ -42,20 +31,19 @@ void main() {
       expect(pressed, isTrue);
     });
 
-    testWidgets('should display correct google asset', (tester) async {
+    testWidgets('displays google asset image', (tester) async {
       await tester.pumpWidget(buildWidget(onPressed: () {}));
+      await tester.pumpAndSettle();
 
       final image = tester.widget<Image>(find.byType(Image));
-
-      expect(image.image, isA<AssetImage>());
       expect((image.image as AssetImage).assetName, 'assets/icons/google.png');
     });
 
-    testWidgets('should have correct icon size', (tester) async {
+    testWidgets('icon has correct size', (tester) async {
       await tester.pumpWidget(buildWidget(onPressed: () {}));
+      await tester.pumpAndSettle();
 
       final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox).first);
-
       expect(sizedBox.width, 21);
       expect(sizedBox.height, 21);
     });

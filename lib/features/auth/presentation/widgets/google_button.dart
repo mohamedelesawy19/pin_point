@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Core imports:
 import '/core/localization/localization_helpers.dart';
+import '/core/theme/theme_extensions.dart';
 
 class GoogleButton extends StatelessWidget {
   const GoogleButton({super.key, required this.onPressed});
@@ -14,8 +15,8 @@ class GoogleButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF1F1F1F),
+        backgroundColor: context.colorScheme.onSurface,
+        foregroundColor: context.colorScheme.surface,
         elevation: 0,
         padding: const EdgeInsets.symmetric(vertical: 17),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
@@ -27,10 +28,10 @@ class GoogleButton extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             context.l10n.continueWithGoogle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF1F1F1F),
+              color: context.colorScheme.surface,
             ),
           ),
         ],

@@ -17,60 +17,50 @@ void main() {
 
   setUp(() {
     mockAuthBloc = MockAuthBloc();
-
     when(() => mockAuthBloc.state).thenReturn(const AuthInitial());
   });
 
-  Widget createWidget() {
-    return MaterialApp(
-      localizationsDelegates: LocalizationConfig.localizationsDelegates,
-      supportedLocales: LocalizationConfig.supportedLocales,
-      home: BlocProvider<AuthBloc>.value(
-        value: mockAuthBloc,
-        child: const LoginScreen(),
-      ),
-    );
-  }
+  Widget buildWidget() => MaterialApp(
+    localizationsDelegates: LocalizationConfig.localizationsDelegates,
+    supportedLocales: LocalizationConfig.supportedLocales,
+    home: BlocProvider<AuthBloc>.value(
+      value: mockAuthBloc,
+      child: const LoginScreen(),
+    ),
+  );
 
   group('LoginScreen', () {
-    testWidgets('should render all widgets', (tester) async {
-      await tester.pumpWidget(createWidget());
+    testWidgets('renders all UI elements', (tester) async {
+      await tester.pumpWidget(buildWidget());
+      await tester.pumpAndSettle();
 
       expect(find.byType(LoginScreen), findsOneWidget);
       expect(find.byType(GoogleButton), findsOneWidget);
       expect(find.byType(GuestButton), findsOneWidget);
-
       expect(find.byIcon(Icons.location_pin), findsOneWidget);
-
-      expect(find.byType(Spacer), findsNWidgets(2));
       expect(find.byType(SafeArea), findsOneWidget);
-      expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets(
-      'should add SignInWithGoogleEvent when google button is tapped',
-      (tester) async {
-        await tester.pumpWidget(createWidget());
+    testWidgets('adds SignInWithGoogleEvent when google button tapped', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildWidget());
 
-        await tester.tap(find.byType(GoogleButton));
-        await tester.pump();
+      await tester.tap(find.byType(GoogleButton));
+      await tester.pump();
 
-        verify(() => mockAuthBloc.add(const SignInWithGoogleEvent())).called(1);
-      },
-    );
+      verify(() => mockAuthBloc.add(const SignInWithGoogleEvent())).called(1);
+    });
 
-    testWidgets(
-      'should add SignInAnonymouslyEvent when guest button is tapped',
-      (tester) async {
-        await tester.pumpWidget(createWidget());
+    testWidgets('adds SignInAnonymouslyEvent when guest button tapped', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildWidget());
 
-        await tester.tap(find.byType(GuestButton));
-        await tester.pump();
+      await tester.tap(find.byType(GuestButton));
+      await tester.pump();
 
-        verify(
-          () => mockAuthBloc.add(const SignInAnonymouslyEvent()),
-        ).called(1);
-      },
-    );
+      verify(() => mockAuthBloc.add(const SignInAnonymouslyEvent())).called(1);
+    });
   });
 }

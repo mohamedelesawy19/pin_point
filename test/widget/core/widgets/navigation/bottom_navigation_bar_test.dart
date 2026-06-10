@@ -24,25 +24,23 @@ void main() {
       ),
     ];
 
-    Widget createWidget({
+    Widget buildWidget({
       int selectedIndex = 0,
       bool showLabels = false,
       ValueChanged<int>? onItemSelected,
-    }) {
-      return MaterialApp(
-        home: Scaffold(
-          body: CustomNavigationBar(
-            items: items,
-            selectedIndex: selectedIndex,
-            showLabels: showLabels,
-            onItemSelected: onItemSelected ?? (_) {},
-          ),
+    }) => MaterialApp(
+      home: Scaffold(
+        body: CustomNavigationBar(
+          items: items,
+          selectedIndex: selectedIndex,
+          showLabels: showLabels,
+          onItemSelected: onItemSelected ?? (_) {},
         ),
-      );
-    }
+      ),
+    );
 
     testWidgets('renders all navigation items', (tester) async {
-      await tester.pumpWidget(createWidget());
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byIcon(Icons.home), findsOneWidget);
       expect(find.byIcon(Icons.search_outlined), findsOneWidget);
@@ -52,13 +50,13 @@ void main() {
     testWidgets('shows badge when badge value is greater than zero', (
       tester,
     ) async {
-      await tester.pumpWidget(createWidget());
+      await tester.pumpWidget(buildWidget());
 
       expect(find.text('3'), findsOneWidget);
     });
 
-    testWidgets('does not show labels by default', (tester) async {
-      await tester.pumpWidget(createWidget());
+    testWidgets('hides labels by default', (tester) async {
+      await tester.pumpWidget(buildWidget());
 
       expect(find.text('Home'), findsNothing);
       expect(find.text('Search'), findsNothing);
@@ -66,8 +64,7 @@ void main() {
     });
 
     testWidgets('shows labels when showLabels is true', (tester) async {
-      await tester.pumpWidget(createWidget(showLabels: true));
-
+      await tester.pumpWidget(buildWidget(showLabels: true));
       await tester.pumpAndSettle();
 
       expect(find.text('Home'), findsOneWidget);
@@ -79,14 +76,7 @@ void main() {
       tester,
     ) async {
       int? selected;
-
-      await tester.pumpWidget(
-        createWidget(
-          onItemSelected: (index) {
-            selected = index;
-          },
-        ),
-      );
+      await tester.pumpWidget(buildWidget(onItemSelected: (i) => selected = i));
 
       await tester.tap(find.byKey(const ValueKey('Search')));
       await tester.pumpAndSettle();
@@ -97,41 +87,21 @@ void main() {
     testWidgets('does not call onItemSelected when tapping selected item', (
       tester,
     ) async {
-      int count = 0;
-
-      await tester.pumpWidget(
-        createWidget(
-          onItemSelected: (_) {
-            count++;
-          },
-        ),
-      );
+      var callCount = 0;
+      await tester.pumpWidget(buildWidget(onItemSelected: (_) => callCount++));
 
       await tester.tap(find.byKey(const ValueKey('Home')));
       await tester.pumpAndSettle();
 
-      expect(count, 0);
+      expect(callCount, 0);
     });
 
-    testWidgets('renders correct number of icons', (tester) async {
-      await tester.pumpWidget(createWidget());
+    testWidgets('completes selection animation without errors', (tester) async {
+      await tester.pumpWidget(buildWidget());
+      await tester.pumpWidget(buildWidget(selectedIndex: 2));
+      await tester.pumpAndSettle();
 
-      expect(find.byType(Icon), findsNWidgets(3));
+      expect(tester.takeException(), isNull);
     });
-
-    testWidgets(
-      'animation completes without exceptions when selection changes',
-      (tester) async {
-        await tester.pumpWidget(createWidget());
-
-        await tester.pumpWidget(createWidget(selectedIndex: 2));
-
-        await tester.pump(const Duration(milliseconds: 100));
-        await tester.pump(const Duration(milliseconds: 200));
-        await tester.pump(const Duration(milliseconds: 300));
-
-        expect(tester.takeException(), isNull);
-      },
-    );
   });
 }

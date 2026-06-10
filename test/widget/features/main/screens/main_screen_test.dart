@@ -1,57 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:pin_point/core/localization/localization_delegate.dart';
 import 'package:pin_point/features/main/presentation/screens/main_screen.dart';
 
 void main() {
-  testWidgets('MainScreen bottom navigation changes page index', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(const MaterialApp(home: MainScreen()));
-
-    // initial state
-    expect(find.byType(Scaffold), findsWidgets);
-    expect(find.byType(MainScreen), findsOneWidget);
-
-    // Items should be findable by key even if labels are hidden
-    expect(find.byKey(const ValueKey('Home')), findsOneWidget);
-    expect(find.byKey(const ValueKey('Explore')), findsOneWidget);
-    expect(find.byKey(const ValueKey('Profile')), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('Explore')));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const ValueKey('Profile')));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const ValueKey('Home')));
-    await tester.pumpAndSettle();
-
-    expect(find.byType(MainScreen), findsOneWidget);
-  });
-
-  testWidgets('IndexedStack keeps pages alive and switches index', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(const MaterialApp(home: MainScreen()));
-
-    final indexedStack = tester.widget<IndexedStack>(find.byType(IndexedStack));
-    expect(indexedStack.index, 0);
-
-    await tester.tap(find.byKey(const ValueKey('Explore')));
-    await tester.pumpAndSettle();
-
-    final indexedStack1 = tester.widget<IndexedStack>(
-      find.byType(IndexedStack),
+  group('MainScreen', () {
+    Widget buildWidget() => const MaterialApp(
+      localizationsDelegates: LocalizationConfig.localizationsDelegates,
+      supportedLocales: LocalizationConfig.supportedLocales,
+      home: MainScreen(),
     );
-    expect(indexedStack1.index, 1);
 
-    await tester.tap(find.byKey(const ValueKey('Profile')));
-    await tester.pumpAndSettle();
+    testWidgets('renders all navigation items', (tester) async {
+      await tester.pumpWidget(buildWidget());
+      await tester.pumpAndSettle();
 
-    final indexedStack2 = tester.widget<IndexedStack>(
-      find.byType(IndexedStack),
-    );
-    expect(indexedStack2.index, 2);
+      expect(find.byType(MainScreen), findsOneWidget);
+      expect(find.byKey(const ValueKey('Home')), findsOneWidget);
+      expect(find.byKey(const ValueKey('Explore')), findsOneWidget);
+      expect(find.byKey(const ValueKey('Profile')), findsOneWidget);
+    });
+
+    testWidgets('IndexedStack starts at index 0', (tester) async {
+      await tester.pumpWidget(buildWidget());
+      await tester.pumpAndSettle();
+
+      final stack = tester.widget<IndexedStack>(find.byType(IndexedStack));
+      expect(stack.index, 0);
+    });
+
+    testWidgets('IndexedStack updates index on tab change', (tester) async {
+      await tester.pumpWidget(buildWidget());
+
+      await tester.tap(find.byKey(const ValueKey('Explore')));
+      await tester.pumpAndSettle();
+      expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 1);
+
+      await tester.tap(find.byKey(const ValueKey('Profile')));
+      await tester.pumpAndSettle();
+      expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 2);
+
+      await tester.tap(find.byKey(const ValueKey('Home')));
+      await tester.pumpAndSettle();
+      expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 0);
+    });
   });
 }

@@ -6,6 +6,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Core imports
+import '/core/theme/app_colors.dart';
+import '/core/theme/theme_extensions.dart';
+
 // ─── Model ───────────────────────────────────────────────────────────────────
 
 class NavBarItem {
@@ -30,10 +34,10 @@ class CustomNavigationBar extends StatefulWidget {
     required this.items,
     required this.selectedIndex,
     required this.onItemSelected,
-    this.backgroundColor = const Color(0xFFFAFAF8),
-    this.activeColor = const Color(0xFF1A0533),
-    this.inactiveColor = const Color(0xFF909090),
-    this.indicatorColor = const Color(0x121A0533),
+    this.backgroundColor = AppColors.surfaceVariant,
+    this.activeColor = AppColors.primary,
+    this.inactiveColor = AppColors.onSurfaceVariant,
+    this.indicatorColor = const Color(0x1A2ED3FF),
     this.height,
     this.margin = const EdgeInsets.fromLTRB(20, 0, 20, 20),
     this.showLabels = false,
@@ -105,8 +109,8 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
           child: LayoutBuilder(
             builder: (_, box) {
               final itemW = box.maxWidth / widget.items.length;
-              final pillW = math.min(54.0, itemW - 12);
-              final pillH = math.min(52.0, h - 16);
+              final pillW = math.min(58.0, itemW - 8);
+              final pillH = math.min(56.0, h - 12);
 
               return Stack(
                 clipBehavior: Clip.none,
@@ -186,21 +190,18 @@ class _Shell extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(r),
         color: color,
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.11),
-          width: 0.8,
-        ),
+        border: Border.all(color: AppColors.outlineVariant, width: 0.8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.10),
-            blurRadius: 40,
-            spreadRadius: -6,
-            offset: const Offset(0, 18),
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 16,
+            spreadRadius: -5,
+            offset: const Offset(0, 8),
           ),
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.01),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -208,7 +209,7 @@ class _Shell extends StatelessWidget {
         borderRadius: const BorderRadius.all(r),
         child: enableBlur
             ? BackdropFilter(
-                filter: ui.ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                filter: ui.ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                 child: child,
               )
             : child,
@@ -306,7 +307,7 @@ class _NavItemState extends State<_NavItem>
                           '${widget.item.label}_${widget.isSelected}',
                         ),
                         color: color,
-                        size: 24,
+                        size: 28,
                       ),
                     ),
                     if ((widget.item.badge ?? 0) > 0)
@@ -390,17 +391,17 @@ class _Badge extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(minWidth: 15, minHeight: 15),
       padding: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: const BoxDecoration(
-        color: Color(0xFFE53935),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+      decoration: BoxDecoration(
+        color: context.colorScheme.error,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(
         child: Text(
           count > 99 ? '99+' : '$count',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 9,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: context.colorScheme.onError,
             height: 1.3,
           ),
         ),
