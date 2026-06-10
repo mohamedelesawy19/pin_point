@@ -18,11 +18,11 @@ abstract class NoParamsUseCase<TResult> {
 }
 
 abstract class StreamUseCase<TResult, TParams> {
-  Stream<Either<Failure, TResult>> call(TParams params);
+  Stream<TResult> call(TParams params);
 }
 
 abstract class NoParamsStreamUseCase<TResult> {
-  Stream<Either<Failure, TResult>> call();
+  Stream<TResult> call();
 }
 
 // ============================================================================

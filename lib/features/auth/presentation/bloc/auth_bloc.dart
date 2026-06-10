@@ -1,8 +1,6 @@
 // Package imports:
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pin_point/core/errors/failures.dart';
 
 // Feature imports:
 import '/features/auth/domain/entities/user_entity.dart';
@@ -68,14 +66,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthStartedEvent _,
     Emitter<AuthState> emit,
   ) async {
-    await emit.forEach<Either<Failure, UserEntity?>>(
+    await emit.forEach<UserEntity?>(
       _watchAuthState(),
-      onData: (result) => result.fold(
-        (failure) => AuthError(message: failure.message),
-        (user) => user != null
-            ? AuthAuthenticated(user: user)
-            : const AuthUnauthenticated(),
-      ),
+      onData: (user) => user != null
+          ? AuthAuthenticated(user: user)
+          : const AuthUnauthenticated(),
       onError: (_, _) => const AuthUnauthenticated(),
     );
   }

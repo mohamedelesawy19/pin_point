@@ -57,15 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Stream<Either<Failure, UserEntity?>> watchAuthState() async* {
-    try {
-      await for (final user in _remote.watchAuthState()) {
-        yield Right(user);
-      }
-    } on Exception catch (e) {
-      yield Left(
-        AuthFailure(message: e.toString(), code: AuthErrorCodes.watchAuthState),
-      );
-    }
+  Stream<UserEntity?> watchAuthState() {
+    return _remote.watchAuthState();
   }
 }

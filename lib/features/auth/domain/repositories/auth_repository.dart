@@ -11,5 +11,5 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> signInWithGoogle();
   Future<Either<Failure, UserEntity>> signInAnonymously();
   Future<Either<Failure, void>> signOut();
-  Stream<Either<Failure, UserEntity?>> watchAuthState();
+  Stream<UserEntity?> watchAuthState();
 }

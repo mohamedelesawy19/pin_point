@@ -1,8 +1,4 @@
-// Package imports:
-import 'package:dartz/dartz.dart';
-
 // Core imports:
-import '/core/errors/failures.dart';
 import '/core/usecases/usecase.dart';
 
 // Features imports:
@@ -14,5 +10,5 @@ class WatchAuthStateUseCase implements NoParamsStreamUseCase<UserEntity?> {
   final AuthRepository _repository;
 
   @override
-  Stream<Either<Failure, UserEntity?>> call() => _repository.watchAuthState();
+  Stream<UserEntity?> call() => _repository.watchAuthState();
 }

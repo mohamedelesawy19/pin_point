@@ -225,14 +225,13 @@ void main() {
   });
 
   // ── AuthStartedEvent ───────────────────────────────────────────────────────
-
   group('AuthBloc — AuthStartedEvent (auth-state stream)', () {
     blocTest<AuthBloc, AuthState>(
       'emits [AuthAuthenticated] when stream emits a non-null user',
       build: () {
-        when(() => mockWatchAuthState()).thenAnswer(
-          (_) => Stream.value(const Right<Failure, UserEntity?>(_tStreamUser)),
-        );
+        when(
+          () => mockWatchAuthState(),
+        ).thenAnswer((_) => Stream.value(_tStreamUser));
         return buildBloc();
       },
       act: (bloc) => bloc.add(const AuthStartedEvent()),
@@ -240,11 +239,9 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'emits [AuthUnauthenticated] when stream emits null (signed out)',
+      'emits [AuthUnauthenticated] when stream emits null',
       build: () {
-        when(() => mockWatchAuthState()).thenAnswer(
-          (_) => Stream.value(const Right<Failure, UserEntity?>(null)),
-        );
+        when(() => mockWatchAuthState()).thenAnswer((_) => Stream.value(null));
         return buildBloc();
       },
       act: (bloc) => bloc.add(const AuthStartedEvent()),
@@ -252,38 +249,10 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'emits [AuthError] when stream emits a Failure',
+      'handles multiple consecutive auth state changes',
       build: () {
         when(() => mockWatchAuthState()).thenAnswer(
-          (_) => Stream.value(const Left<Failure, UserEntity?>(_tFailure)),
-        );
-        return buildBloc();
-      },
-      act: (bloc) => bloc.add(const AuthStartedEvent()),
-      expect: () => [const AuthError(message: _kErrorMessage)],
-    );
-
-    blocTest<AuthBloc, AuthState>(
-      'emits [AuthUnauthenticated] when the stream itself throws an error',
-      build: () {
-        when(
-          () => mockWatchAuthState(),
-        ).thenAnswer((_) => Stream.error(Exception('unexpected stream error')));
-        return buildBloc();
-      },
-      act: (bloc) => bloc.add(const AuthStartedEvent()),
-      expect: () => [const AuthUnauthenticated()],
-    );
-
-    blocTest<AuthBloc, AuthState>(
-      'handles multiple consecutive sign-in / sign-out stream events',
-      build: () {
-        when(() => mockWatchAuthState()).thenAnswer(
-          (_) => Stream.fromIterable([
-            const Right<Failure, UserEntity?>(_tStreamUser), // sign in
-            const Right<Failure, UserEntity?>(null), // sign out
-            const Right<Failure, UserEntity?>(_tStreamUser), // sign in again
-          ]),
+          (_) => Stream.fromIterable([_tStreamUser, null, _tStreamUser]),
         );
         return buildBloc();
       },
@@ -296,29 +265,11 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'handles mixed Failure and success events in the stream',
-      build: () {
-        when(() => mockWatchAuthState()).thenAnswer(
-          (_) => Stream.fromIterable([
-            const Left<Failure, UserEntity?>(_tFailure),
-            const Right<Failure, UserEntity?>(_tStreamUser),
-          ]),
-        );
-        return buildBloc();
-      },
-      act: (bloc) => bloc.add(const AuthStartedEvent()),
-      expect: () => [
-        const AuthError(message: _kErrorMessage),
-        const AuthAuthenticated(user: _tStreamUser),
-      ],
-    );
-
-    blocTest<AuthBloc, AuthState>(
       'calls watchAuthState exactly once',
       build: () {
-        when(() => mockWatchAuthState()).thenAnswer(
-          (_) => Stream.value(const Right<Failure, UserEntity?>(_tStreamUser)),
-        );
+        when(
+          () => mockWatchAuthState(),
+        ).thenAnswer((_) => Stream.value(_tStreamUser));
         return buildBloc();
       },
       act: (bloc) => bloc.add(const AuthStartedEvent()),

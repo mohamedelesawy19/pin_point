@@ -142,31 +142,13 @@ void main() {
     test('emits Right(user)', () {
       when(() => remote.watchAuthState()).thenAnswer((_) => Stream.value(user));
 
-      expect(repository.watchAuthState(), emits(const Right(user)));
+      expect(repository.watchAuthState(), emits(user));
     });
 
     test('emits Right(null)', () {
       when(() => remote.watchAuthState()).thenAnswer((_) => Stream.value(null));
 
-      expect(repository.watchAuthState(), emits(const Right(null)));
-    });
-
-    test('emits AuthFailure when stream throws', () {
-      when(
-        () => remote.watchAuthState(),
-      ).thenAnswer((_) => Stream.error(Exception('stream error')));
-
-      expect(
-        repository.watchAuthState(),
-        emits(
-          const Left(
-            AuthFailure(
-              message: 'Exception: stream error',
-              code: AuthErrorCodes.watchAuthState,
-            ),
-          ),
-        ),
-      );
+      expect(repository.watchAuthState(), emits(null));
     });
   });
 }
