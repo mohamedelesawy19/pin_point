@@ -20,5 +20,17 @@
   "playAsGuest": "Play as Guest",
   "@playAsGuest": {
     "description": "Text for the button that allows users to play without signing in"
+  },
+  "joinAParty": "Join a Party",
+  "@joinAParty": {
+    "description": "Text for the button that allows users to join an existing game party"
+  },
+  "createAParty": "Create a Party",
+  "@createAParty": {
+    "description": "Text for the button that allows users to create a new game party"
+  },
+  "or": "OR",
+  "@or": {
+    "description": "Text displayed between the 'Join a Party' and 'Create a Party' buttons on the home screen"
   }
 }

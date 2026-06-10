@@ -23,4 +23,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get playAsGuest => 'Play as Guest';
+
+  @override
+  String get joinAParty => 'Join a Party';
+
+  @override
+  String get createAParty => 'Create a Party';
+
+  @override
+  String get or => 'OR';
 }

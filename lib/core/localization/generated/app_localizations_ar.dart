@@ -23,4 +23,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get playAsGuest => 'العب كضيف';
+
+  @override
+  String get joinAParty => 'انضم إلى بارتي';
+
+  @override
+  String get createAParty => 'أنشئ بارتي';
+
+  @override
+  String get or => 'أو';
 }

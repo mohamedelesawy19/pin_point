@@ -127,6 +127,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play as Guest'**
   String get playAsGuest;
+
+  /// Text for the button that allows users to join an existing game party
+  ///
+  /// In en, this message translates to:
+  /// **'Join a Party'**
+  String get joinAParty;
+
+  /// Text for the button that allows users to create a new game party
+  ///
+  /// In en, this message translates to:
+  /// **'Create a Party'**
+  String get createAParty;
+
+  /// Text displayed between the 'Join a Party' and 'Create a Party' buttons on the home screen
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get or;
 }
 
 class _AppLocalizationsDelegate
