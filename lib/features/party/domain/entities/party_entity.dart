@@ -2,6 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Feature imports:
+import '/features/party/domain/entities/party_settings.dart';
 import '/features/party/domain/entities/player_entity.dart';
 
 class PartyEntity extends Equatable {
@@ -42,16 +43,3 @@ class PartyEntity extends Equatable {
 }
 
 enum PartyStatus { waiting, playing, finished }
-
-class PartySettings extends Equatable {
-  const PartySettings({
-    required this.roundDurationSeconds,
-    required this.totalRounds,
-  });
-
-  final int roundDurationSeconds; // 30 or 60
-  final int totalRounds;
-
-  @override
-  List<Object?> get props => [roundDurationSeconds, totalRounds];
-}

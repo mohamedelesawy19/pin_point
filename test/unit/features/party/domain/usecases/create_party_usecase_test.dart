@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:pin_point/core/errors/failures.dart';
 
-import 'package:pin_point/features/party/domain/entities/party_entity.dart';
+import 'package:pin_point/features/party/domain/entities/party_settings.dart';
 import 'package:pin_point/features/party/domain/repositories/party_repository.dart';
 import 'package:pin_point/features/party/domain/usecases/create_party_usecase.dart';
 

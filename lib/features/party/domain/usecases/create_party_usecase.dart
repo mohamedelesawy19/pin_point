@@ -6,7 +6,7 @@ import '/core/errors/failures.dart';
 import '/core/usecases/usecase.dart';
 
 // Features imports:
-import '/features/party/domain/entities/party_entity.dart';
+import '/features/party/domain/entities/party_settings.dart';
 import '/features/party/domain/repositories/party_repository.dart';
 
 class CreatePartyUseCase implements UseCase<String, CreatePartyParams> {

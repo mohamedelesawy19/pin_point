@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pin_point/core/usecases/usecase.dart';
 
 import 'package:pin_point/features/party/domain/entities/party_entity.dart';
+import 'package:pin_point/features/party/domain/entities/party_settings.dart';
 import 'package:pin_point/features/party/domain/entities/player_entity.dart';
 import 'package:pin_point/features/party/domain/repositories/party_repository.dart';
 import 'package:pin_point/features/party/domain/usecases/watch_party_usecase.dart';

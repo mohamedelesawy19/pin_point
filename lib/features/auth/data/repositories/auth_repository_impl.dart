@@ -19,7 +19,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
-      return Right(await _remote.signInWithGoogle());
+      final model = await _remote.signInWithGoogle();
+      return Right(model.toEntity());
     } on AuthException catch (e) {
       return Left(
         AuthFailure(message: e.message, code: AuthErrorCodes.signInWithGoogle),
@@ -32,7 +33,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, UserEntity>> signInAnonymously() async {
     try {
-      return Right(await _remote.signInAnonymously());
+      final model = await _remote.signInAnonymously();
+      return Right(model.toEntity());
     } on AuthException catch (e) {
       return Left(
         AuthFailure(message: e.message, code: AuthErrorCodes.signInAnonymously),
@@ -58,6 +60,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<UserEntity?> watchAuthState() {
-    return _remote.watchAuthState();
+    return _remote.watchAuthState().map((model) => model?.toEntity());
   }
 }

@@ -27,7 +27,6 @@ linter:
     - prefer_if_elements_to_conditional_expressions
     - prefer_interpolation_to_compose_strings
     - prefer_single_quotes
-    - sort_constructors_first
     - type_annotate_public_apis
     - no_leading_underscores_for_local_identifiers
 

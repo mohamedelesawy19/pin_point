@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:pin_point/features/party/domain/entities/party_entity.dart';
+import 'package:pin_point/features/party/domain/entities/party_settings.dart';
 
 void main() {
   group('PartyEntity', () {

@@ -6,6 +6,7 @@ import '/core/errors/failures.dart';
 
 // Feature imports:
 import '/features/party/domain/entities/party_entity.dart';
+import '/features/party/domain/entities/party_settings.dart';
 import '/features/party/domain/entities/player_entity.dart';
 
 abstract class PartyRepository {

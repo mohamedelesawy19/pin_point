@@ -8,6 +8,7 @@ import 'package:pin_point/core/errors/failures.dart';
 import 'package:pin_point/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:pin_point/features/auth/data/models/user_model.dart';
 import 'package:pin_point/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:pin_point/features/auth/domain/entities/user_entity.dart';
 
 class MockAuthRemoteDataSource extends Mock implements AuthRemoteDataSource {}
 
@@ -27,13 +28,20 @@ void main() {
     isAnonymous: false,
   );
 
+  const entity = UserEntity(
+    uid: '123',
+    email: 'test@test.com',
+    displayName: 'Mohamed',
+    isAnonymous: false,
+  );
+
   group('signInWithGoogle', () {
     test('returns Right(UserEntity) on success', () async {
       when(() => remote.signInWithGoogle()).thenAnswer((_) async => user);
 
       final result = await repository.signInWithGoogle();
 
-      expect(result, const Right(user));
+      expect(result, const Right(entity));
 
       verify(() => remote.signInWithGoogle()).called(1);
     });
@@ -71,7 +79,7 @@ void main() {
 
       final result = await repository.signInAnonymously();
 
-      expect(result, const Right(user));
+      expect(result, const Right(entity));
 
       verify(() => remote.signInAnonymously()).called(1);
     });
@@ -142,7 +150,7 @@ void main() {
     test('emits Right(user)', () {
       when(() => remote.watchAuthState()).thenAnswer((_) => Stream.value(user));
 
-      expect(repository.watchAuthState(), emits(user));
+      expect(repository.watchAuthState(), emits(entity));
     });
 
     test('emits Right(null)', () {
