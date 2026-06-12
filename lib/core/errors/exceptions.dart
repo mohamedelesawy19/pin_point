@@ -27,3 +27,11 @@ class StorageException extends BaseException {
 class AuthException extends BaseException {
   const AuthException({required super.message, super.code});
 }
+
+// ============================================================================
+// Server Exceptions
+// ============================================================================
+
+class ServerException extends BaseException {
+  const ServerException({required super.message, super.code});
+}

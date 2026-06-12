@@ -7,7 +7,7 @@ import '/core/errors/exceptions.dart';
 import '/core/errors/failures.dart';
 
 // Features imports:
-import '/features/auth/data/datasources/auth_remote_data_source.dart';
+import '/features/auth/data/datasources/auth_remote_datasource.dart';
 import '/features/auth/domain/entities/user_entity.dart';
 import '/features/auth/domain/repositories/auth_repository.dart';
 

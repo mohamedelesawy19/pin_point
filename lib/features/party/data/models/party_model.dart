@@ -1,5 +1,9 @@
 // Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
+// Core imports:
+import '/core/errors/exceptions.dart';
 
 // Features imports:
 import '/features/party/data/models/party_settings_model.dart';
@@ -28,6 +32,32 @@ class PartyModel extends Equatable {
   final List<PlayerModel> players;
   final int currentRound;
   final DateTime createdAt;
+
+  factory PartyModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    if (!doc.exists) throw const ServerException(message: 'Party not found.');
+    final data = doc.data()!;
+    final rawPlayers = data['players'] as Map<String, dynamic>? ?? {};
+    return PartyModel(
+      partyCode: data['partyCode'] as String,
+      hostId: data['hostId'] as String,
+      hostName: data['hostName'] as String,
+      partyName: data['partyName'] as String,
+      status: PartyStatus.values.byName(data['status'] as String),
+      settings: PartySettingsModel.fromJson(
+        data['settings'] as Map<String, dynamic>,
+      ),
+      currentRound: data['currentRound'] as int,
+      players: rawPlayers.values
+          .map((p) => PlayerModel.fromJson(p as Map<String, dynamic>))
+          .toList(growable: false),
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
+    );
+  }
+
+  Map<String, dynamic> toFirestore() => {
+    ...toJson(),
+    'players': {for (final p in players) p.uid: p.toJson()}, // override
+  };
 
   factory PartyModel.fromJson(Map<String, dynamic> json) {
     return PartyModel(

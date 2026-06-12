@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pin_point/core/constants/error_codes.dart';
 import 'package:pin_point/core/errors/exceptions.dart';
 import 'package:pin_point/core/errors/failures.dart';
-import 'package:pin_point/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:pin_point/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:pin_point/features/auth/data/models/user_model.dart';
 import 'package:pin_point/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:pin_point/features/auth/domain/entities/user_entity.dart';
