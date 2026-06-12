@@ -11,8 +11,7 @@ import '/features/party/domain/entities/player_entity.dart';
 
 abstract class PartyRepository {
   Future<Either<Failure, String>> createParty({
-    required String hostId,
-    required String hostName,
+    required PlayerEntity hostPlayer,
     required String partyName,
     required PartySettings settings,
   });

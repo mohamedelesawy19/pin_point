@@ -34,7 +34,7 @@ void main() {
         photoUrl: 'photo.jpg',
       );
 
-      expect(player.props, ['123', 'Mohamed', 0]);
+      expect(player.props, ['123', 'Mohamed', 0, 'photo.jpg', false]);
     });
   });
 }

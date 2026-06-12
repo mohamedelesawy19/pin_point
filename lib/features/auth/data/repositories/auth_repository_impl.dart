@@ -59,7 +59,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
+  Future<Either<Failure, UserEntity>> getCurrentUser() async {
     try {
       final model = await _remote.getCurrentUser();
       return Right(model.toEntity());

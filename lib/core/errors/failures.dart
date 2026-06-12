@@ -26,6 +26,13 @@ class AuthFailure extends Failure {
   const AuthFailure({required super.message, super.code = AuthErrorCodes.base});
 }
 
+class ServerFailure extends Failure {
+  const ServerFailure({
+    required super.message,
+    super.code = ServerErrorCodes.base,
+  });
+}
+
 class UnknownFailure extends Failure {
   const UnknownFailure({
     super.message = 'An unexpected error occurred.',
