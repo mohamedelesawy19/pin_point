@@ -12,6 +12,7 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> signInWithGoogle();
   Future<UserModel> signInAnonymously();
   Future<void> signOut();
+  Future<UserModel> getCurrentUser();
   Stream<UserModel?> watchAuthState();
 }
 
@@ -99,5 +100,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return _firebaseAuth.authStateChanges().map(
       (user) => user == null ? null : UserModel.fromFirebaseUser(user),
     );
+  }
+
+  @override
+  Future<UserModel> getCurrentUser() async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      throw const AuthException(message: 'No user is currently signed in');
+    }
+    return UserModel.fromFirebaseUser(user);
   }
 }

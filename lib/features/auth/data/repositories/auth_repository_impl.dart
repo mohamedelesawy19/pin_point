@@ -59,6 +59,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
+    try {
+      final model = await _remote.getCurrentUser();
+      return Right(model.toEntity());
+    } on AuthException catch (e) {
+      return Left(
+        AuthFailure(message: e.message, code: AuthErrorCodes.getCurrentUser),
+      );
+    } on Exception catch (e) {
+      return Left(UnknownFailure(message: e.toString()));
+    }
+  }
+
+  @override
   Stream<UserEntity?> watchAuthState() {
     return _remote.watchAuthState().map((model) => model?.toEntity());
   }

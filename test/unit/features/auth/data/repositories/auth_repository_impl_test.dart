@@ -146,6 +146,44 @@ void main() {
     });
   });
 
+  group('getCurrentUser', () {
+    test('returns Right(UserEntity) on success', () async {
+      when(() => remote.getCurrentUser()).thenAnswer((_) async => user);
+
+      final result = await repository.getCurrentUser();
+
+      expect(result, const Right(entity));
+
+      verify(() => remote.getCurrentUser()).called(1);
+    });
+
+    test('returns AuthFailure on AuthException', () async {
+      when(
+        () => remote.getCurrentUser(),
+      ).thenThrow(const AuthException(message: 'get user failed'));
+
+      final result = await repository.getCurrentUser();
+
+      expect(
+        result,
+        const Left(
+          AuthFailure(
+            message: 'get user failed',
+            code: AuthErrorCodes.getCurrentUser,
+          ),
+        ),
+      );
+    });
+
+    test('returns UnknownFailure on unknown exception', () async {
+      when(() => remote.getCurrentUser()).thenThrow(Exception('boom'));
+
+      final result = await repository.getCurrentUser();
+
+      expect(result.isLeft(), true);
+    });
+  });
+
   group('watchAuthState', () {
     test('emits Right(user)', () {
       when(() => remote.watchAuthState()).thenAnswer((_) => Stream.value(user));

@@ -17,5 +17,10 @@ abstract final class AuthErrorCodes {
   static const signInWithGoogle = 'AUTH_SIGN_IN_WITH_GOOGLE';
   static const signInAnonymously = 'AUTH_SIGN_IN_ANONYMOUSLY';
   static const signOut = 'AUTH_SIGN_OUT';
+  static const getCurrentUser = 'AUTH_GET_CURRENT_USER';
   static const watchAuthState = 'AUTH_WATCH_AUTH_STATE';
+}
+
+abstract final class ServerErrorCodes {
+  static const base = 'SERVER_ERROR';
 }

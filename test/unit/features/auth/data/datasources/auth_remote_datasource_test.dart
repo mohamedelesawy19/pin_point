@@ -124,6 +124,32 @@ void main() {
     });
   });
 
+  group('getCurrentUser', () {
+    test('returns UserModel when user is signed in', () async {
+      final user = MockUser();
+
+      when(() => user.uid).thenReturn('123');
+      when(() => user.email).thenReturn('test@test.com');
+      when(() => user.displayName).thenReturn('Mohamed');
+      when(() => user.photoURL).thenReturn(null);
+      when(() => user.isAnonymous).thenReturn(false);
+
+      when(() => firebaseAuth.currentUser).thenReturn(user);
+
+      final result = await dataSource.getCurrentUser();
+
+      expect(result, isA<UserModel>());
+      expect(result.uid, '123');
+      verify(() => firebaseAuth.currentUser).called(1);
+    });
+
+    test('throws AuthException when no user is signed in', () async {
+      when(() => firebaseAuth.currentUser).thenReturn(null);
+
+      expect(() => dataSource.getCurrentUser(), throwsA(isA<AuthException>()));
+    });
+  });
+
   group('watchAuthState', () {
     test('emits UserModel when firebase emits user', () {
       final user = MockUser();
