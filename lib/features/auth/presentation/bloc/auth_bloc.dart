@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,10 +21,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this._signOut,
     required this._watchAuthState,
   }) : super(const AuthInitial()) {
-    on<SignInWithGoogleEvent>(_onSignInWithGoogle);
-    on<SignInAnonymouslyEvent>(_onSignInAnonymously);
-    on<SignOutEvent>(_onSignOut);
-    on<AuthStartedEvent>(_onAuthStarted);
+    on<SignInWithGoogleEvent>(_onSignInWithGoogle, transformer: droppable());
+    on<SignInAnonymouslyEvent>(_onSignInAnonymously, transformer: droppable());
+    on<SignOutEvent>(_onSignOut, transformer: droppable());
+    on<AuthStartedEvent>(_onAuthStarted, transformer: restartable());
   }
 
   final SignInWithGoogleUseCase _signInWithGoogle;
