@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 // Core imports:
 import '/core/di/di_modules/auth_module.dart';
+import '/core/di/di_modules/party_module.dart';
 import '/core/di/di_modules/storage_module.dart';
 import '/core/di/service_locator.dart';
 
@@ -45,6 +46,9 @@ class InjectionContainer {
 
       // Auth feature dependencies
       await AuthModule.register();
+
+      // Party feature dependencies
+      await PartyModule.register();
 
       // Wait for all async dependencies to be ready
       debugPrint('⏳ Waiting for async dependencies...');

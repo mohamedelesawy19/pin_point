@@ -50,8 +50,8 @@ Firestore schema (parties/{partyCode})
 }
 */
 
-class PartyFirebaseDataSource implements PartyRemoteDataSource {
-  const PartyFirebaseDataSource({required this._firestore});
+class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
+  const PartyRemoteDataSourceImpl({required this._firestore});
 
   final FirebaseFirestore _firestore;
 

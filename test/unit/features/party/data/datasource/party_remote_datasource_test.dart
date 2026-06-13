@@ -104,7 +104,7 @@ void main() {
   late MockDocumentReference mockDocRef;
   late MockDocumentSnapshot mockSnapshot;
   late MockTransaction mockTransaction;
-  late PartyFirebaseDataSource dataSource;
+  late PartyRemoteDataSourceImpl dataSource;
 
   setUpAll(() {
     registerFallbackValue(Duration.zero);
@@ -128,7 +128,7 @@ void main() {
     ).thenReturn(mockCollection);
     when(() => mockCollection.doc(any<String>())).thenReturn(mockDocRef);
 
-    dataSource = PartyFirebaseDataSource(firestore: mockFirestore);
+    dataSource = PartyRemoteDataSourceImpl(firestore: mockFirestore);
   });
 
   // ── Helper: simulate runTransaction ────────────────────────────────────────
