@@ -145,6 +145,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OR'**
   String get or;
+
+  /// Label for the party name input field in the create party screen
+  ///
+  /// In en, this message translates to:
+  /// **'Party Name'**
+  String get partyName;
+
+  /// Label for the fast round duration option in the create party screen
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get fast;
+
+  /// Label for the standard round duration option in the create party screen
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get standard;
+
+  /// Label for the round duration selection in the create party screen
+  ///
+  /// In en, this message translates to:
+  /// **'Round Duration'**
+  String get roundDuration;
+
+  /// Label for the number of rounds selection in the create party screen
+  ///
+  /// In en, this message translates to:
+  /// **'Number of Rounds'**
+  String get numberOfRounds;
+
+  /// Text displayed on the create party button when the party is being created
+  ///
+  /// In en, this message translates to:
+  /// **'Creating…'**
+  String get creatingParty;
+
+  /// Text displayed on the create party button
+  ///
+  /// In en, this message translates to:
+  /// **'Create Party'**
+  String get createParty;
+
+  /// Error message displayed when the party name input field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a party name'**
+  String get partyNameEmpty;
+
+  /// Error message displayed when the party name input field is less than 2 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least 2 characters'**
+  String get partyNameTooShort;
+
+  /// Label for the estimated game time displayed in the game summary banner
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated game time'**
+  String get estimatedGameTime;
 }
 
 class _AppLocalizationsDelegate

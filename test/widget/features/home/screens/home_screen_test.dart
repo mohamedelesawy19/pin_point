@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:pin_point/core/localization/localization_delegate.dart';
 import 'package:pin_point/features/home/presentation/screens/home_screen.dart';
@@ -10,10 +11,21 @@ void main() {
   group('HomeScreen', () {
     Future<void> pumpHomeScreen(WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp.router(
           localizationsDelegates: LocalizationConfig.localizationsDelegates,
           supportedLocales: LocalizationConfig.supportedLocales,
-          home: HomeScreen(),
+          routerConfig: GoRouter(
+            routes: [
+              GoRoute(
+                path: '/',
+                builder: (context, state) => const HomeScreen(),
+              ),
+              GoRoute(
+                path: '/party/create',
+                builder: (context, state) => const Scaffold(),
+              ),
+            ],
+          ),
         ),
       );
       await tester.pumpAndSettle();

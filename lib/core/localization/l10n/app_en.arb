@@ -32,5 +32,45 @@
   "or": "OR",
   "@or": {
     "description": "Text displayed between the 'Join a Party' and 'Create a Party' buttons on the home screen"
+  },
+  "partyName": "Party Name",
+  "@partyName": {
+    "description": "Label for the party name input field in the create party screen"
+  },
+  "fast": "Fast",
+  "@fast": {
+    "description": "Label for the fast round duration option in the create party screen"
+  },
+  "standard": "Standard",
+  "@standard": {
+    "description": "Label for the standard round duration option in the create party screen"
+  },
+  "roundDuration": "Round Duration",
+  "@roundDuration": {
+    "description": "Label for the round duration selection in the create party screen"
+  },
+  "numberOfRounds": "Number of Rounds",
+  "@numberOfRounds": {
+    "description": "Label for the number of rounds selection in the create party screen"
+  },
+  "creatingParty": "Creating…",
+  "@creatingParty": {
+    "description": "Text displayed on the create party button when the party is being created"
+  },
+  "createParty": "Create Party",
+  "@createParty": {
+    "description": "Text displayed on the create party button"
+  },
+  "partyNameEmpty": "Please enter a party name",
+  "@partyNameEmpty": {
+    "description": "Error message displayed when the party name input field is empty"
+  },
+  "partyNameTooShort": "Name must be at least 2 characters",
+  "@partyNameTooShort": {
+    "description": "Error message displayed when the party name input field is less than 2 characters"
+  },
+  "estimatedGameTime": "Estimated game time",
+  "@estimatedGameTime": {
+    "description": "Label for the estimated game time displayed in the game summary banner"
   }
 }

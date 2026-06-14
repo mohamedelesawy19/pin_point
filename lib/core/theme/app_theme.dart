@@ -39,5 +39,6 @@ abstract final class AppTheme {
       inverseSurface: AppColors.onBackground,
       onInverseSurface: AppColors.background,
     ),
+    appBarTheme: const AppBarTheme(centerTitle: true),
   );
 }

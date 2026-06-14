@@ -32,4 +32,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get or => 'OR';
+
+  @override
+  String get partyName => 'Party Name';
+
+  @override
+  String get fast => 'Fast';
+
+  @override
+  String get standard => 'Standard';
+
+  @override
+  String get roundDuration => 'Round Duration';
+
+  @override
+  String get numberOfRounds => 'Number of Rounds';
+
+  @override
+  String get creatingParty => 'Creating…';
+
+  @override
+  String get createParty => 'Create Party';
+
+  @override
+  String get partyNameEmpty => 'Please enter a party name';
+
+  @override
+  String get partyNameTooShort => 'Name must be at least 2 characters';
+
+  @override
+  String get estimatedGameTime => 'Estimated game time';
 }

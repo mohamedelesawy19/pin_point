@@ -1,5 +1,9 @@
 // Package imports:
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+// Core imports:
+import '/core/router/app_routes.dart';
 
 // Feature imports:
 import '/features/home/presentation/widgets/home_action_card.dart';
@@ -27,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: navigate to lobby with code
   }
 
-  void _onCreateParty() {
-    // TODO: navigate to host settings screen
+  void _onCreateParty(BuildContext context) {
+    context.push(AppRoutes.createParty);
   }
 
   @override
@@ -45,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ActionCard(
                 roomCodeController: _roomCodeController,
                 onJoinParty: _onJoinParty,
-                onCreateParty: _onCreateParty,
+                onCreateParty: () => _onCreateParty(context),
               ),
               const SizedBox(height: 16),
               const Spacer(),

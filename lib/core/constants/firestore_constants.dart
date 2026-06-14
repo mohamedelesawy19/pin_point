@@ -16,4 +16,6 @@ abstract final class FirestoreConstants {
 
   // ── Business rules ────────────────────────────────────────────────────────
   static const int maxPlayersPerParty = 8;
+  static const List<int> durationOptions = [30, 60];
+  static const List<int> roundOptions = [3, 5, 7, 10];
 }

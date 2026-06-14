@@ -32,4 +32,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get or => 'أو';
+
+  @override
+  String get partyName => 'اسم البارتي';
+
+  @override
+  String get fast => 'سريع';
+
+  @override
+  String get standard => 'قياسي';
+
+  @override
+  String get roundDuration => 'مدة الجولة';
+
+  @override
+  String get numberOfRounds => 'عدد الجولات';
+
+  @override
+  String get creatingParty => 'جارٍ الإنشاء...';
+
+  @override
+  String get createParty => 'أنشئ البارتي';
+
+  @override
+  String get partyNameEmpty => 'يرجى إدخال اسم البارتي';
+
+  @override
+  String get partyNameTooShort => 'يجب أن يكون الاسم مكونًا من حرفين على الأقل';
+
+  @override
+  String get estimatedGameTime => 'وقت اللعب المقدر';
 }

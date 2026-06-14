@@ -7,6 +7,7 @@ import '/core/di/service_locator.dart';
 import '/core/router/app_routes.dart';
 import '/core/router/go_router_refresh_stream.dart';
 import '/core/router/routes/main_routes.dart';
+import '/core/router/routes/party_routes.dart';
 
 // Feature imports:
 import '/features/auth/presentation/bloc/auth_bloc.dart';
@@ -24,7 +25,7 @@ class AppRouter {
 
     redirect: _authGuard,
 
-    routes: [...MainRoutes.routes],
+    routes: [...MainRoutes.routes, ...PartyRoutes.routes],
   );
 
   /// Centralized auth guard — evaluated before any route renders.

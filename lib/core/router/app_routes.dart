@@ -7,6 +7,10 @@ class AppRoutes {
   static const login = '/login';
   static const main = '/main';
 
+  // ── Party Routes ─────────────────────────────────────────────────────
+
+  static const createParty = '/party/create';
+
   // Declare which routes are accessible without authentication.
   static const publicRoutes = {login};
 }
