@@ -205,6 +205,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Estimated game time'**
   String get estimatedGameTime;
+
+  /// Message displayed in a snackbar when the party code is copied to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Party code copied to clipboard'**
+  String get partyCopied;
+
+  /// Text for the button that allows users to leave the current party
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Party'**
+  String get leaveParty;
+
+  /// Confirmation message displayed in a dialog when the user attempts to leave the party
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave the party?'**
+  String get leavePartyConfirm;
+
+  /// Text for the cancel button in the leave party confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Text for the confirm button in the leave party confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
+  /// Label for the players section in the lobby screen
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get players;
+
+  /// Message displayed in the lobby screen when waiting for players to join
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for at least {minPlayersToStart} players to start'**
+  String waitingForPlayers(int minPlayersToStart);
+
+  /// Message displayed in the lobby screen when the game is starting
+  ///
+  /// In en, this message translates to:
+  /// **'Starting game...'**
+  String get startingGame;
+
+  /// Text for the button that allows the host to start the game
+  ///
+  /// In en, this message translates to:
+  /// **'Start Game'**
+  String get startGame;
+
+  /// Text for the button that allows the host to kick a player from the party
+  ///
+  /// In en, this message translates to:
+  /// **'Kick Player'**
+  String get kickPlayer;
+
+  /// Message displayed when the app is connecting to the game lobby
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to lobby...'**
+  String get connectingToLobby;
 }
 
 class _AppLocalizationsDelegate

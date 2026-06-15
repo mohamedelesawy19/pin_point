@@ -7,8 +7,8 @@ import '/core/theme/theme_extensions.dart';
 class PrimaryButton extends StatefulWidget {
   const PrimaryButton({
     super.key,
-    required this.onPressed,
     required this.text,
+    this.onPressed,
     this.isLoading = false,
     this.height = 56,
     this.borderRadius = 16,
@@ -20,8 +20,8 @@ class PrimaryButton extends StatefulWidget {
     this.leading,
   });
 
-  final VoidCallback onPressed;
   final String text;
+  final VoidCallback? onPressed;
   final bool isLoading;
   final double height;
   final double borderRadius;

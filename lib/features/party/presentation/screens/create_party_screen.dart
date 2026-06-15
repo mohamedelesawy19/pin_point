@@ -1,17 +1,21 @@
 // Package imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 // Core imports:
 import '/core/constants/firestore_constants.dart';
 import '/core/localization/localization_helpers.dart';
+import '/core/router/app_routes.dart';
 import '/core/widgets/buttons/primary_button.dart';
 import '/core/widgets/cards/section_card.dart';
 import '/core/widgets/feedback/snackbar.dart';
 
 // Feature imports:
+import '/features/auth/presentation/bloc/auth_bloc.dart';
 import '/features/party/domain/entities/party_settings.dart';
 import '/features/party/presentation/bloc/party_bloc.dart';
+import '/features/party/presentation/router/lobby_args.dart';
 import '/features/party/presentation/widgets/duration_toggle.dart';
 import '/features/party/presentation/widgets/game_summary_banner.dart';
 import '/features/party/presentation/widgets/rounds_selector.dart';
@@ -161,7 +165,13 @@ class _CreatePartyScreenState extends State<CreatePartyScreen> {
     if (ModalRoute.of(context)?.isCurrent != true) return;
 
     if (state.isInLobby) {
-      // context.pushReplacement(AppRoutes.lobbyScreen);
+      final authState = context.read<AuthBloc>().state;
+      if (authState is! AuthAuthenticated) return;
+
+      context.pushReplacement(
+        AppRoutes.lobby,
+        extra: LobbyArgs(currentUserId: authState.user.uid),
+      );
       return;
     }
 

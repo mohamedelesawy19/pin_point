@@ -62,4 +62,39 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get estimatedGameTime => 'وقت اللعب المقدر';
+
+  @override
+  String get partyCopied => 'تم نسخ رمز البارتي';
+
+  @override
+  String get leaveParty => 'مغادرة البارتي';
+
+  @override
+  String get leavePartyConfirm => 'هل أنت متأكد أنك تريد مغادرة البارتي؟';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get leave => 'مغادرة';
+
+  @override
+  String get players => 'اللاعبون';
+
+  @override
+  String waitingForPlayers(int minPlayersToStart) {
+    return 'في انتظار $minPlayersToStart لاعبين على الأقل لبدء اللعبة';
+  }
+
+  @override
+  String get startingGame => 'جارٍ بدء اللعبة...';
+
+  @override
+  String get startGame => 'ابدأ اللعبة';
+
+  @override
+  String get kickPlayer => 'طرد اللاعب';
+
+  @override
+  String get connectingToLobby => 'جارٍ الاتصال بالبارتي...';
 }

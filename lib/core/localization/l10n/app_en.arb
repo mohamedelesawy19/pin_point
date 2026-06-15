@@ -72,5 +72,55 @@
   "estimatedGameTime": "Estimated game time",
   "@estimatedGameTime": {
     "description": "Label for the estimated game time displayed in the game summary banner"
+  },
+  "partyCopied": "Party code copied to clipboard",
+  "@partyCopied": {
+    "description": "Message displayed in a snackbar when the party code is copied to the clipboard"
+  },
+  "leaveParty": "Leave Party",
+  "@leaveParty": {
+    "description": "Text for the button that allows users to leave the current party"
+  },
+  "leavePartyConfirm": "Are you sure you want to leave the party?",
+  "@leavePartyConfirm": {
+    "description": "Confirmation message displayed in a dialog when the user attempts to leave the party"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Text for the cancel button in the leave party confirmation dialog"
+  },
+  "leave": "Leave",
+  "@leave": {
+    "description": "Text for the confirm button in the leave party confirmation dialog"
+  },
+  "players": "Players",
+  "@players": {
+    "description": "Label for the players section in the lobby screen"
+  },
+  "waitingForPlayers": "Waiting for at least {minPlayersToStart} players to start",
+  "@waitingForPlayers": {
+    "description": "Message displayed in the lobby screen when waiting for players to join",
+    "placeholders": {
+      "minPlayersToStart": {
+        "type": "int",
+        "description": "The minimum number of players required to start the game"
+      }
+    }
+  },
+  "startingGame": "Starting game...",
+  "@startingGame": {
+    "description": "Message displayed in the lobby screen when the game is starting"
+  },
+  "startGame": "Start Game",
+  "@startGame": {
+    "description": "Text for the button that allows the host to start the game"
+  },
+  "kickPlayer": "Kick Player",
+  "@kickPlayer": {
+    "description": "Text for the button that allows the host to kick a player from the party"
+  },
+  "connectingToLobby": "Connecting to lobby...",
+  "@connectingToLobby": {
+    "description": "Message displayed when the app is connecting to the game lobby"
   }
 }

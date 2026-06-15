@@ -62,4 +62,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get estimatedGameTime => 'Estimated game time';
+
+  @override
+  String get partyCopied => 'Party code copied to clipboard';
+
+  @override
+  String get leaveParty => 'Leave Party';
+
+  @override
+  String get leavePartyConfirm => 'Are you sure you want to leave the party?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get players => 'Players';
+
+  @override
+  String waitingForPlayers(int minPlayersToStart) {
+    return 'Waiting for at least $minPlayersToStart players to start';
+  }
+
+  @override
+  String get startingGame => 'Starting game...';
+
+  @override
+  String get startGame => 'Start Game';
+
+  @override
+  String get kickPlayer => 'Kick Player';
+
+  @override
+  String get connectingToLobby => 'Connecting to lobby...';
 }

@@ -72,5 +72,55 @@
   "estimatedGameTime": "وقت اللعب المقدر",
   "@estimatedGameTime": {
     "description": "التسمية لوقت اللعبة المقدر المعروض في شريط ملخص اللعبة"
+  },
+  "partyCopied": "تم نسخ رمز البارتي",
+  "@partyCopied": {
+    "description": "رسالة تظهر في شريط التنبيه عند نسخ رمز البارتي إلى الحافظة"
+  },
+  "leaveParty": "مغادرة البارتي",
+  "@leaveParty": {
+    "description": "نص زر يسمح للمستخدم بمغادرة الغرفة الحالية"
+  },
+  "leavePartyConfirm": "هل أنت متأكد أنك تريد مغادرة البارتي؟",
+  "@leavePartyConfirm": {
+    "description": "رسالة تأكيد تظهر في مربع حوار عند محاولة المستخدم مغادرة البارتي"
+  },
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "نص زر الإلغاء في مربع حوار تأكيد مغادرة البارتي"
+  },
+  "leave": "مغادرة",
+  "@leave": {
+    "description": "نص زر التأكيد في مربع حوار تأكيد مغادرة البارتي"
+  },
+  "players": "اللاعبون",
+  "@players": {
+    "description": "التسمية لقسم اللاعبين في شاشة الردهة"
+  },
+  "waitingForPlayers": "في انتظار {minPlayersToStart} لاعبين على الأقل لبدء اللعبة",
+  "@waitingForPlayers": {
+    "description": "رسالة تظهر في شاشة الردهة عند انتظار اللاعبين للانضمام",
+    "placeholders": {
+      "minPlayersToStart": {
+        "type": "int",
+        "description": "الحد الأدنى لعدد اللاعبين المطلوب لبدء اللعبة"
+      }
+    }
+  },
+  "startingGame": "جارٍ بدء اللعبة...",
+  "@startingGame": {
+    "description": "النص المعروض عند بدء اللعبة"
+  },
+  "startGame": "ابدأ اللعبة",
+  "@startGame": {
+    "description": "نص زر بدء اللعبة"
+  },
+  "kickPlayer": "طرد اللاعب",
+  "@kickPlayer": {
+    "description": "نص زر طرد لاعب من البارتي"
+  },
+  "connectingToLobby": "جارٍ الاتصال بالبارتي...",
+  "@connectingToLobby": {
+    "description": "النص المعروض عند الاتصال بالبارتي"
   }
 }
