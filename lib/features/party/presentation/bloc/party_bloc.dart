@@ -101,7 +101,10 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
               party: party,
               clearActionError: true,
             ),
-      onError: (_, _) => state.copyWith(actionError: 'Party connection lost'),
+      onError: (_, _) => state.copyWith(
+        status: PartyBlocStatus.initial,
+        actionError: 'Party connection lost',
+      ),
     );
   }
 

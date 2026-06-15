@@ -56,7 +56,8 @@ class PartyModel extends Equatable {
 
   Map<String, dynamic> toFirestore() => {
     ...toJson(),
-    'players': {for (final p in players) p.uid: p.toJson()}, // override
+    'players': {for (final p in players) p.uid: p.toJson()}, // Override
+    'createdAt': Timestamp.fromDate(createdAt),
   };
 
   factory PartyModel.fromJson(Map<String, dynamic> json) {
