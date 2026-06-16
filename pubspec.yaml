@@ -29,6 +29,9 @@ dependencies:
   # Storage
   flutter_secure_storage: ^10.3.1
 
+  # Image Caching
+  cached_network_image: ^3.4.1
+
   # Dependency Injection
   get_it: ^9.2.1
 
@@ -42,6 +45,7 @@ dependencies:
 
   # UI
   cupertino_icons: ^1.0.9
+  shimmer_animation: ^2.2.2+1
 
 dev_dependencies:
   flutter_test:

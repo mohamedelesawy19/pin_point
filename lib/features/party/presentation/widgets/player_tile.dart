@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Core imports:
 import '/core/localization/localization_helpers.dart';
 import '/core/theme/theme_extensions.dart';
+import '/core/widgets/common/image_widget.dart';
 
 // Feature imports:
 import '/features/party/domain/entities/player_entity.dart';
@@ -88,7 +89,10 @@ class _PlayerAvatar extends StatelessWidget {
     if (player.photoUrl != null) {
       return CircleAvatar(
         radius: 24,
-        backgroundImage: NetworkImage(player.photoUrl!),
+        backgroundColor: Colors.transparent,
+        child: ClipOval(
+          child: ImageWidget(src: player.photoUrl!, width: 48, height: 48),
+        ),
       );
     }
 

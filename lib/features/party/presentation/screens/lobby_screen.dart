@@ -23,11 +23,17 @@ import '/features/party/presentation/widgets/players_section.dart';
 // Smart Widget — own BLoC integration, side-effects, and navigation
 // ─────────────────────────────────────────────────────────────────────────────
 
-class LobbyScreen extends StatelessWidget {
-  const LobbyScreen({super.key, required this.currentUserId});
+class LobbyScreen extends StatefulWidget {
+  const LobbyScreen({super.key, required this.currentUserId, this.roomCode});
 
   final String currentUserId;
+  final String? roomCode;
 
+  @override
+  State<LobbyScreen> createState() => _LobbyScreenState();
+}
+
+class _LobbyScreenState extends State<LobbyScreen> {
   // ── Events ─────────────────────────────────────────────────────────────────
 
   void _onLeave(BuildContext context, String partyCode) {
@@ -96,6 +102,18 @@ class LobbyScreen extends StatelessWidget {
     return partyChanged;
   }
 
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.roomCode != null) {
+      context.read<PartyBloc>().add(
+        JoinPartyEvent(partyCode: widget.roomCode!),
+      );
+    }
+  }
+
   // ── Build ─────────────────────────────────────────────────────────────────
 
   @override
@@ -110,7 +128,7 @@ class LobbyScreen extends StatelessWidget {
         // Guard: should never be null when inLobby, but stay safe.
         if (party == null) return const _LobbyLoadingView();
 
-        final isHost = party.hostId == currentUserId;
+        final isHost = party.hostId == widget.currentUserId;
 
         final canStart =
             party.players.length >= FirestoreConstants.minPlayersToStart;

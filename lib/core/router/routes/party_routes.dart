@@ -30,7 +30,10 @@ class PartyRoutes {
           path: AppRoutes.lobby,
           builder: (_, state) {
             final args = state.extra as LobbyArgs;
-            return LobbyScreen(currentUserId: args.currentUserId);
+            return LobbyScreen(
+              currentUserId: args.currentUserId,
+              roomCode: args.roomCode,
+            );
           },
         ),
       ],

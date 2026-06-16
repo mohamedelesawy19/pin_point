@@ -1,6 +1,9 @@
 // Package imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pin_point/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:pin_point/features/party/presentation/router/lobby_args.dart';
 
 // Core imports:
 import '/core/router/app_routes.dart';
@@ -28,7 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onJoinParty() {
     final code = _roomCodeController.text.trim();
     if (code.length != 6) return;
-    // TODO: navigate to lobby with code
+
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticated) {
+      context.push(
+        AppRoutes.lobby,
+        extra: LobbyArgs(currentUserId: authState.user.uid, roomCode: code),
+      );
+      return;
+    }
   }
 
   void _onCreateParty(BuildContext context) {
