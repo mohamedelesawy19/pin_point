@@ -4,9 +4,11 @@ import 'package:flutter/foundation.dart';
 
 // Core imports:
 import '/core/di/service_locator.dart';
+import '/core/storage/secure_storage.dart';
 
 // Features imports:
 import '/features/auth/domain/repositories/auth_repository.dart';
+import '/features/party/data/datasources/party_local_datasource.dart';
 import '/features/party/data/datasources/party_remote_datasource.dart';
 import '/features/party/data/repositories/party_repository_impl.dart';
 import '/features/party/domain/repositories/party_repository.dart';
@@ -14,6 +16,7 @@ import '/features/party/domain/usecases/create_party_usecase.dart';
 import '/features/party/domain/usecases/join_party_usecase.dart';
 import '/features/party/domain/usecases/kick_player_usecase.dart';
 import '/features/party/domain/usecases/leave_party_usecase.dart';
+import '/features/party/domain/usecases/restore_party_session_usecase.dart';
 import '/features/party/domain/usecases/start_game_usecase.dart';
 import '/features/party/domain/usecases/watch_party_usecase.dart';
 import '/features/party/presentation/bloc/party_bloc.dart';
@@ -27,10 +30,17 @@ class PartyModule {
       () => PartyRemoteDataSourceImpl(firestore: FirebaseFirestore.instance),
     );
 
+    ServiceLocator.registerLazySingleton<PartyLocalDataSource>(
+      () => PartyLocalDataSourceImpl(
+        secureStorage: ServiceLocator.get<SecureStorage>(),
+      ),
+    );
+
     // Repositories
     ServiceLocator.registerLazySingleton<PartyRepository>(
       () => PartyRepositoryImpl(
-        dataSource: ServiceLocator.get<PartyRemoteDataSource>(),
+        remoteDataSource: ServiceLocator.get<PartyRemoteDataSource>(),
+        localDataSource: ServiceLocator.get<PartyLocalDataSource>(),
       ),
     );
 
@@ -60,6 +70,12 @@ class PartyModule {
       () => LeavePartyUseCase(
         partyRepository: ServiceLocator.get<PartyRepository>(),
         authRepository: ServiceLocator.get<AuthRepository>(),
+      ),
+    );
+
+    ServiceLocator.registerFactory<RestorePartySessionUseCase>(
+      () => RestorePartySessionUseCase(
+        partyRepository: ServiceLocator.get<PartyRepository>(),
       ),
     );
 

@@ -31,6 +31,7 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
   }) : super(const PartyState()) {
     on<CreatePartyEvent>(_onCreateParty, transformer: droppable());
     on<JoinPartyEvent>(_onJoinParty, transformer: droppable());
+    on<ResumePartyEvent>(_onResumeParty, transformer: droppable());
     on<KickPlayerEvent>(_onKickPlayer, transformer: droppable());
     on<LeavePartyEvent>(_onLeaveParty, transformer: droppable());
     on<StartGameEvent>(_onStartGame, transformer: droppable());
@@ -84,6 +85,16 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
       ),
       (partyCode) => add(_WatchPartyEvent(partyCode: partyCode)),
     );
+  }
+
+  Future<void> _onResumeParty(
+    ResumePartyEvent event,
+    Emitter<PartyState> emit,
+  ) async {
+    emit(
+      state.copyWith(status: PartyBlocStatus.loading, clearActionError: true),
+    );
+    add(_WatchPartyEvent(partyCode: event.partyCode));
   }
 
   // ── Party Stream ───────────────────────────────────────────────────────────

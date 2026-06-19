@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:flutter/foundation.dart';
+import 'package:pin_point/core/di/di_modules/home_module.dart';
 
 // Core imports:
 import '/core/di/di_modules/auth_module.dart';
@@ -49,6 +50,9 @@ class InjectionContainer {
 
       // Party feature dependencies
       await PartyModule.register();
+
+      // Home feature dependencies
+      HomeModule.register();
 
       // Wait for all async dependencies to be ready
       debugPrint('⏳ Waiting for async dependencies...');

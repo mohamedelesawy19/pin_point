@@ -7,6 +7,7 @@ import '/core/di/service_locator.dart';
 import '/core/router/app_routes.dart';
 
 // Feature imports:
+import '/features/auth/presentation/bloc/auth_bloc.dart';
 import '/features/party/presentation/bloc/party_bloc.dart';
 import '/features/party/presentation/router/lobby_args.dart';
 import '/features/party/presentation/screens/create_party_screen.dart';
@@ -26,6 +27,8 @@ class PartyRoutes {
           path: AppRoutes.createParty,
           builder: (_, _) => const CreatePartyScreen(),
         ),
+
+        // ── Normal join (called from HomeScreen with extra args) ────────────
         GoRoute(
           path: AppRoutes.lobby,
           builder: (_, state) {
@@ -33,6 +36,25 @@ class PartyRoutes {
             return LobbyScreen(
               currentUserId: args.currentUserId,
               roomCode: args.roomCode,
+              entrySource: args.entrySource,
+            );
+          },
+        ),
+
+        // ── Session restoration (called via router redirect, no extra) ──────
+        GoRoute(
+          path: '${AppRoutes.resumeLobby}/:code',
+          builder: (context, state) {
+            final code = state.pathParameters['code']!;
+            // Safe: this route is only reachable when authenticated.
+            final uid =
+                (ServiceLocator.get<AuthBloc>().state as AuthAuthenticated)
+                    .user
+                    .uid;
+            return LobbyScreen(
+              currentUserId: uid,
+              roomCode: code,
+              entrySource: LobbyEntrySource.resume,
             );
           },
         ),

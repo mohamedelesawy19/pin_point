@@ -11,6 +11,7 @@ import '/core/router/routes/party_routes.dart';
 
 // Feature imports:
 import '/features/auth/presentation/bloc/auth_bloc.dart';
+import '/features/home/presentation/bloc/session_cubit.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -18,10 +19,10 @@ class AppRouter {
   static final GoRouter _router = GoRouter(
     initialLocation: AppRoutes.splash,
 
-    // Re-evaluate redirect on every AuthBloc state change.
-    refreshListenable: GoRouterRefreshStream(
-      ServiceLocator.get<AuthBloc>().stream,
-    ),
+    refreshListenable: Listenable.merge([
+      GoRouterRefreshStream(ServiceLocator.get<AuthBloc>().stream),
+      GoRouterRefreshStream(ServiceLocator.get<SessionCubit>().stream),
+    ]),
 
     redirect: _authGuard,
 
@@ -31,28 +32,44 @@ class AppRouter {
   /// Centralized auth guard — evaluated before any route renders.
   static String? _authGuard(BuildContext context, GoRouterState state) {
     final authState = ServiceLocator.get<AuthBloc>().state;
+    final sessionState = ServiceLocator.get<SessionCubit>().state;
 
-    // Waiting for the stream to emit the first value.
-    if (authState is AuthInitial || authState is AuthLoading) {
+    final loc = state.matchedLocation;
+
+    // ── Splash: block until auth resolves; session only matters when signed in
+    final authPending =
+        authState is AuthInitial || authState is AuthLoading;
+    final sessionPending = authState is AuthAuthenticated &&
+        (sessionState is SessionInitial || sessionState is SessionChecking);
+
+    if (authPending || sessionPending) {
       return AppRoutes.splash;
     }
 
     final isAuthenticated = authState is AuthAuthenticated;
-    final isOnPublicRoute = AppRoutes.publicRoutes.contains(
-      state.matchedLocation,
-    );
-    final isOnSplash = state.matchedLocation == AppRoutes.splash;
+    final isOnPublicRoute = AppRoutes.publicRoutes.contains(loc);
+    final isOnSplash = loc == AppRoutes.splash;
 
-    // Unauthenticated users should only be able to access public routes
-    // (excluding splash).
+    // ── Unauthenticated ──────────────────────────────────────────────────────
     if (!isAuthenticated) {
-      if (isOnSplash || !isOnPublicRoute) {
-        return AppRoutes.login;
+      return (isOnSplash || !isOnPublicRoute) ? AppRoutes.login : null;
+    }
+
+    // ── Authenticated on splash / public routes ─────────────────────────────
+    if (isOnSplash || isOnPublicRoute) {
+      // Check for a restored session before defaulting to /main.
+      if (sessionState is SessionRestored) {
+        return '${AppRoutes.resumeLobby}/${sessionState.partyCode}';
       }
-    } else {
-      // Authenticated users should not be on public routes or splash screen.
-      if (isOnSplash || isOnPublicRoute) {
-        return AppRoutes.main;
+      return AppRoutes.main;
+    }
+
+    // ── Authenticated, inside the app — check for unhandled restoration ─────
+    if (sessionState is SessionRestored) {
+      final alreadyOnLobby =
+          loc == AppRoutes.lobby || loc.startsWith(AppRoutes.resumeLobby);
+      if (!alreadyOnLobby) {
+        return '${AppRoutes.resumeLobby}/${sessionState.partyCode}';
       }
     }
 

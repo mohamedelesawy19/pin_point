@@ -11,6 +11,7 @@ class AppRoutes {
 
   static const createParty = '/party/create';
   static const lobby = '/party/lobby';
+  static const resumeLobby = '/party/lobby/resume';
 
   // Declare which routes are accessible without authentication.
   static const publicRoutes = {login};

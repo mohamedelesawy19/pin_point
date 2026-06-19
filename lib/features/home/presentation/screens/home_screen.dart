@@ -2,15 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_point/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:pin_point/features/party/presentation/router/lobby_args.dart';
 
 // Core imports:
 import '/core/router/app_routes.dart';
 
 // Feature imports:
+import '/features/auth/presentation/bloc/auth_bloc.dart';
 import '/features/home/presentation/widgets/home_action_card.dart';
 import '/features/home/presentation/widgets/home_header.dart';
+import '/features/party/presentation/router/lobby_args.dart';
+import '/features/party/presentation/screens/lobby_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,7 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (authState is AuthAuthenticated) {
       context.push(
         AppRoutes.lobby,
-        extra: LobbyArgs(currentUserId: authState.user.uid, roomCode: code),
+        extra: LobbyArgs(
+          currentUserId: authState.user.uid,
+          roomCode: code,
+          entrySource: LobbyEntrySource.join,
+        ),
       );
       return;
     }

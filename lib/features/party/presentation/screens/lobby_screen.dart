@@ -12,6 +12,7 @@ import '/core/theme/theme_extensions.dart';
 import '/core/widgets/feedback/snackbar.dart';
 
 // Features imports:
+import '/features/home/presentation/bloc/session_cubit.dart';
 import '/features/party/domain/entities/party_entity.dart';
 import '/features/party/presentation/bloc/party_bloc.dart';
 import '/features/party/presentation/widgets/host_actions_bar.dart';
@@ -23,11 +24,19 @@ import '/features/party/presentation/widgets/players_section.dart';
 // Smart Widget — own BLoC integration, side-effects, and navigation
 // ─────────────────────────────────────────────────────────────────────────────
 
+enum LobbyEntrySource { create, join, resume }
+
 class LobbyScreen extends StatefulWidget {
-  const LobbyScreen({super.key, required this.currentUserId, this.roomCode});
+  const LobbyScreen({
+    super.key,
+    required this.currentUserId,
+    this.roomCode,
+    this.entrySource = LobbyEntrySource.create,
+  });
 
   final String currentUserId;
   final String? roomCode;
+  final LobbyEntrySource entrySource;
 
   @override
   State<LobbyScreen> createState() => _LobbyScreenState();
@@ -107,7 +116,18 @@ class _LobbyScreenState extends State<LobbyScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.roomCode != null) {
+    if (widget.entrySource == LobbyEntrySource.resume &&
+        widget.roomCode != null) {
+      // ── Session restoration path ──────────────────────────────────────────
+      context.read<PartyBloc>().add(
+        ResumePartyEvent(partyCode: widget.roomCode!),
+      );
+      // Tell SessionCubit the redirect has been consumed so the router
+      // does not issue a second redirect on the next state rebuild.
+      context.read<SessionCubit>().consumeSession();
+    } else if (widget.entrySource == LobbyEntrySource.join &&
+        widget.roomCode != null) {
+      // ── Normal join path (from HomeScreen) ───────────────────────────────
       context.read<PartyBloc>().add(
         JoinPartyEvent(partyCode: widget.roomCode!),
       );

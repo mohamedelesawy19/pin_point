@@ -25,6 +25,14 @@ class JoinPartyEvent extends PartyEvent {
   List<Object?> get props => [partyCode];
 }
 
+final class ResumePartyEvent extends PartyEvent {
+  const ResumePartyEvent({required this.partyCode});
+  final String partyCode;
+
+  @override
+  List<Object?> get props => [partyCode];
+}
+
 // Internal event — dispatched automatically after create/join
 class _WatchPartyEvent extends PartyEvent {
   const _WatchPartyEvent({required this.partyCode});
