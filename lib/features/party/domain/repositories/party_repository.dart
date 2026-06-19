@@ -32,6 +32,9 @@ abstract class PartyRepository {
     required String partyCode,
     required String uid,
   });
+  Future<Either<Failure, String?>> getActivePartyCode();
+  Future<Either<Failure, Unit>> clearActivePartyCode();
+  Future<Either<Failure, PartyEntity?>> getParty(String code);
   Stream<PartyEntity> watchParty(String partyCode);
 }
 

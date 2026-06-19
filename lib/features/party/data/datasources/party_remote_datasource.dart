@@ -31,6 +31,7 @@ abstract class PartyRemoteDataSource {
     required String hostId,
   });
   Future<void> leaveParty({required String partyCode, required String uid});
+  Future<PartyModel?> getParty(String partyCode);
   Stream<PartyModel> watchParty(String partyCode);
 }
 
@@ -259,6 +260,17 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
       });
     } on ServerException {
       rethrow;
+    } on FirebaseException catch (e) {
+      throw ServerException(message: e.message ?? e.code);
+    }
+  }
+
+  @override
+  Future<PartyModel?> getParty(String partyCode) async {
+    try {
+      final snapshot = await _partyRef(partyCode).get();
+      if (!snapshot.exists) return null;
+      return PartyModel.fromFirestore(snapshot);
     } on FirebaseException catch (e) {
       throw ServerException(message: e.message ?? e.code);
     }

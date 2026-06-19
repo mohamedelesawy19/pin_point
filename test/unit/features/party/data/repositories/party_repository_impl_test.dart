@@ -4,9 +4,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 // Core imports:
+import 'package:pin_point/core/errors/exceptions.dart';
 import 'package:pin_point/core/errors/failures.dart';
 
 // Feature imports:
+import 'package:pin_point/features/party/data/datasources/party_local_datasource.dart';
 import 'package:pin_point/features/party/data/datasources/party_remote_datasource.dart';
 import 'package:pin_point/features/party/data/models/party_model.dart';
 import 'package:pin_point/features/party/data/models/party_settings_model.dart';
@@ -18,8 +20,11 @@ import 'package:pin_point/features/party/domain/entities/player_entity.dart';
 
 class MockPartyRemoteDataSource extends Mock implements PartyRemoteDataSource {}
 
+class MockLocalDataSource extends Mock implements PartyLocalDataSource {}
+
 void main() {
-  late MockPartyRemoteDataSource dataSource;
+  late MockPartyRemoteDataSource remoteDataSource;
+  late MockLocalDataSource localDataSource;
   late PartyRepositoryImpl repository;
 
   const hostPlayer = PlayerEntity(
@@ -70,19 +75,26 @@ void main() {
   });
 
   setUp(() {
-    dataSource = MockPartyRemoteDataSource();
-    repository = PartyRepositoryImpl(dataSource: dataSource);
+    remoteDataSource = MockPartyRemoteDataSource();
+    localDataSource = MockLocalDataSource();
+    repository = PartyRepositoryImpl(
+      remoteDataSource: remoteDataSource,
+      localDataSource: localDataSource,
+    );
   });
 
   group('createParty', () {
     test('returns Right(code) when datasource succeeds', () async {
       when(
-        () => dataSource.createParty(
+        () => remoteDataSource.createParty(
           hostPlayer: any(named: 'hostPlayer'),
           partyName: any(named: 'partyName'),
           settings: any(named: 'settings'),
         ),
       ).thenAnswer((_) async => 'ABC123');
+      when(
+        () => localDataSource.saveActivePartyCode(any()),
+      ).thenAnswer((_) async {});
 
       final result = await repository.createParty(
         hostPlayer: hostPlayer,
@@ -93,7 +105,7 @@ void main() {
       expect(result, const Right('ABC123'));
 
       verify(
-        () => dataSource.createParty(
+        () => remoteDataSource.createParty(
           hostPlayer: PlayerModel.fromEntity(hostPlayer),
           partyName: 'Party',
           settings: PartySettingsModel.fromEntity(settings),
@@ -103,12 +115,12 @@ void main() {
 
     test('returns Left(ServerFailure) when datasource throws', () async {
       when(
-        () => dataSource.createParty(
+        () => remoteDataSource.createParty(
           hostPlayer: any(named: 'hostPlayer'),
           partyName: any(named: 'partyName'),
           settings: any(named: 'settings'),
         ),
-      ).thenThrow(Exception('error'));
+      ).thenThrow(const ServerException(message: 'error'));
 
       final result = await repository.createParty(
         hostPlayer: hostPlayer,
@@ -128,11 +140,14 @@ void main() {
   group('joinParty', () {
     test('returns Right(code)', () async {
       when(
-        () => dataSource.joinParty(
+        () => remoteDataSource.joinParty(
           partyCode: any(named: 'partyCode'),
           player: any(named: 'player'),
         ),
       ).thenAnswer((_) async => 'ABC123');
+      when(
+        () => localDataSource.saveActivePartyCode(any()),
+      ).thenAnswer((_) async {});
 
       final result = await repository.joinParty(
         partyCode: 'ABC123',
@@ -142,7 +157,7 @@ void main() {
       expect(result, const Right('ABC123'));
 
       verify(
-        () => dataSource.joinParty(
+        () => remoteDataSource.joinParty(
           partyCode: 'ABC123',
           player: PlayerModel.fromEntity(player),
         ),
@@ -151,7 +166,7 @@ void main() {
 
     test('returns Left(ServerFailure)', () async {
       when(
-        () => dataSource.joinParty(
+        () => remoteDataSource.joinParty(
           partyCode: any(named: 'partyCode'),
           player: any(named: 'player'),
         ),
@@ -169,7 +184,7 @@ void main() {
   group('startGame', () {
     test('returns Right(unit)', () async {
       when(
-        () => dataSource.startGame(
+        () => remoteDataSource.startGame(
           partyCode: any(named: 'partyCode'),
           hostId: any(named: 'hostId'),
         ),
@@ -183,13 +198,13 @@ void main() {
       expect(result, const Right(unit));
 
       verify(
-        () => dataSource.startGame(partyCode: 'ABC123', hostId: '1'),
+        () => remoteDataSource.startGame(partyCode: 'ABC123', hostId: '1'),
       ).called(1);
     });
 
     test('returns Left(ServerFailure)', () async {
       when(
-        () => dataSource.startGame(
+        () => remoteDataSource.startGame(
           partyCode: any(named: 'partyCode'),
           hostId: any(named: 'hostId'),
         ),
@@ -207,7 +222,7 @@ void main() {
   group('kickPlayer', () {
     test('returns Right(unit)', () async {
       when(
-        () => dataSource.kickPlayer(
+        () => remoteDataSource.kickPlayer(
           partyCode: any(named: 'partyCode'),
           targetUid: any(named: 'targetUid'),
           hostId: any(named: 'hostId'),
@@ -223,7 +238,7 @@ void main() {
       expect(result, const Right(unit));
 
       verify(
-        () => dataSource.kickPlayer(
+        () => remoteDataSource.kickPlayer(
           partyCode: 'ABC123',
           targetUid: '2',
           hostId: '1',
@@ -233,7 +248,7 @@ void main() {
 
     test('returns Left(ServerFailure)', () async {
       when(
-        () => dataSource.kickPlayer(
+        () => remoteDataSource.kickPlayer(
           partyCode: any(named: 'partyCode'),
           targetUid: any(named: 'targetUid'),
           hostId: any(named: 'hostId'),
@@ -253,10 +268,13 @@ void main() {
   group('leaveParty', () {
     test('returns Right(unit)', () async {
       when(
-        () => dataSource.leaveParty(
+        () => remoteDataSource.leaveParty(
           partyCode: any(named: 'partyCode'),
           uid: any(named: 'uid'),
         ),
+      ).thenAnswer((_) async {});
+      when(
+        () => localDataSource.clearActivePartyCode(),
       ).thenAnswer((_) async {});
 
       final result = await repository.leaveParty(partyCode: 'ABC123', uid: '2');
@@ -264,13 +282,13 @@ void main() {
       expect(result, const Right(unit));
 
       verify(
-        () => dataSource.leaveParty(partyCode: 'ABC123', uid: '2'),
+        () => remoteDataSource.leaveParty(partyCode: 'ABC123', uid: '2'),
       ).called(1);
     });
 
     test('returns Left(ServerFailure)', () async {
       when(
-        () => dataSource.leaveParty(
+        () => remoteDataSource.leaveParty(
           partyCode: any(named: 'partyCode'),
           uid: any(named: 'uid'),
         ),
@@ -285,14 +303,14 @@ void main() {
   group('watchParty', () {
     test('maps PartyModel to PartyEntity', () async {
       when(
-        () => dataSource.watchParty('ABC123'),
+        () => remoteDataSource.watchParty('ABC123'),
       ).thenAnswer((_) => Stream.value(partyModel));
 
       final result = repository.watchParty('ABC123');
 
       expect(result, emits(equals(partyEntity)));
 
-      verify(() => dataSource.watchParty('ABC123')).called(1);
+      verify(() => remoteDataSource.watchParty('ABC123')).called(1);
     });
   });
 }

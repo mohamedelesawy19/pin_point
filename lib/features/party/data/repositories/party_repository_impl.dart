@@ -2,9 +2,11 @@
 import 'package:dartz/dartz.dart';
 
 // Core imports:
+import '/core/errors/exceptions.dart';
 import '/core/errors/failures.dart';
 
 // Feature imports:
+import '/features/party/data/datasources/party_local_datasource.dart';
 import '/features/party/data/datasources/party_remote_datasource.dart';
 import '/features/party/data/models/party_settings_model.dart';
 import '/features/party/data/models/player_model.dart';
@@ -14,9 +16,13 @@ import '/features/party/domain/entities/player_entity.dart';
 import '/features/party/domain/repositories/party_repository.dart';
 
 class PartyRepositoryImpl implements PartyRepository {
-  PartyRepositoryImpl({required this._dataSource});
+  PartyRepositoryImpl({
+    required this._remoteDataSource,
+    required this._localDataSource,
+  });
 
-  final PartyRemoteDataSource _dataSource;
+  final PartyRemoteDataSource _remoteDataSource;
+  final PartyLocalDataSource _localDataSource;
 
   // ── PartyRepository ───────────────────────────────────────────────────────
 
@@ -27,15 +33,19 @@ class PartyRepositoryImpl implements PartyRepository {
     required PartySettings settings,
   }) async {
     try {
-      final code = await _dataSource.createParty(
+      final code = await _remoteDataSource.createParty(
         hostPlayer: PlayerModel.fromEntity(hostPlayer),
         partyName: partyName,
         settings: PartySettingsModel.fromEntity(settings),
       );
 
+      await _localDataSource.saveActivePartyCode(code);
+
       return Right(code);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(UnknownFailure(message: e.toString()));
     }
   }
 
@@ -45,13 +55,18 @@ class PartyRepositoryImpl implements PartyRepository {
     required PlayerEntity player,
   }) async {
     try {
-      final code = await _dataSource.joinParty(
+      final code = await _remoteDataSource.joinParty(
         partyCode: partyCode,
         player: PlayerModel.fromEntity(player),
       );
+
+      await _localDataSource.saveActivePartyCode(code);
+
       return Right(code);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(UnknownFailure(message: e.toString()));
     }
   }
 
@@ -61,10 +76,12 @@ class PartyRepositoryImpl implements PartyRepository {
     required String hostId,
   }) async {
     try {
-      await _dataSource.startGame(partyCode: partyCode, hostId: hostId);
+      await _remoteDataSource.startGame(partyCode: partyCode, hostId: hostId);
       return const Right(unit);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(UnknownFailure(message: e.toString()));
     }
   }
 
@@ -75,14 +92,16 @@ class PartyRepositoryImpl implements PartyRepository {
     required String hostId,
   }) async {
     try {
-      await _dataSource.kickPlayer(
+      await _remoteDataSource.kickPlayer(
         partyCode: partyCode,
         targetUid: targetUid,
         hostId: hostId,
       );
       return const Right(unit);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(UnknownFailure(message: e.toString()));
     }
   }
 
@@ -92,15 +111,58 @@ class PartyRepositoryImpl implements PartyRepository {
     required String uid,
   }) async {
     try {
-      await _dataSource.leaveParty(partyCode: partyCode, uid: uid);
+      await _remoteDataSource.leaveParty(partyCode: partyCode, uid: uid);
+
+      await _localDataSource.clearActivePartyCode();
+
       return const Right(unit);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
     } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(UnknownFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String?>> getActivePartyCode() async {
+    try {
+      final code = await _localDataSource.getActivePartyCode();
+      return Right(code);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } on Exception catch (e) {
+      return Left(UnknownFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> clearActivePartyCode() async {
+    try {
+      await _localDataSource.clearActivePartyCode();
+      return const Right(unit);
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } on Exception catch (e) {
+      return Left(UnknownFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PartyEntity?>> getParty(String code) async {
+    try {
+      final model = await _remoteDataSource.getParty(code);
+      return Right(model?.toEntity());
+    } on BaseException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } on Exception catch (e) {
+      return Left(UnknownFailure(message: e.toString()));
     }
   }
 
   @override
   Stream<PartyEntity> watchParty(String partyCode) {
-    return _dataSource.watchParty(partyCode).map((model) => model.toEntity());
+    return _remoteDataSource
+        .watchParty(partyCode)
+        .map((model) => model.toEntity());
   }
 }
