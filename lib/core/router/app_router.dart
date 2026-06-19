@@ -37,9 +37,9 @@ class AppRouter {
     final loc = state.matchedLocation;
 
     // ── Splash: block until auth resolves; session only matters when signed in
-    final authPending =
-        authState is AuthInitial || authState is AuthLoading;
-    final sessionPending = authState is AuthAuthenticated &&
+    final authPending = authState is AuthInitial || authState is AuthLoading;
+    final sessionPending =
+        authState is AuthAuthenticated &&
         (sessionState is SessionInitial || sessionState is SessionChecking);
 
     if (authPending || sessionPending) {
