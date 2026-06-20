@@ -191,7 +191,7 @@ class CustomSnackbar {
     String? actionLabel,
     VoidCallback? onActionPressed,
     VoidCallback? onClosed,
-    bool showCloseIcon = true,
+    bool showCloseIcon = false,
   }) {
     return show(
       context: context,

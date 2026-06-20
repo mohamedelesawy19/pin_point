@@ -92,6 +92,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
   void _listener(BuildContext context, PartyState state) {
     if (state.actionError != null) {
       CustomSnackbar.error(context: context, message: state.actionError!);
+      context.pop();
+      return;
     }
 
     if (state.hasLeft) {

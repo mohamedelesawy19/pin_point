@@ -51,8 +51,6 @@ class ActionCard extends StatelessWidget {
           PrimaryButton(
             text: context.l10n.createAParty,
             leading: const Icon(Icons.add_rounded, size: 18),
-            backgroundColor: const Color(0xFF6366F1),
-            foregroundColor: Colors.white,
             onPressed: onCreateParty,
           ),
         ],

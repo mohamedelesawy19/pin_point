@@ -91,8 +91,8 @@ class PartyModule {
     );
 
     // Presentation BLoCs
-    ServiceLocator.registerSingleton<PartyBloc>(
-      PartyBloc(
+    ServiceLocator.registerFactory<PartyBloc>(
+      () => PartyBloc(
         createParty: ServiceLocator.get<CreatePartyUseCase>(),
         joinParty: ServiceLocator.get<JoinPartyUseCase>(),
         kickPlayer: ServiceLocator.get<KickPlayerUseCase>(),

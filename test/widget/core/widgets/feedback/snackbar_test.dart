@@ -103,6 +103,7 @@ void main() {
                 CustomSnackbar.error(
                   context: context,
                   message: 'Error occurred',
+                  showCloseIcon: true,
                 );
               },
               child: const Text('show'),
@@ -113,7 +114,7 @@ void main() {
     );
 
     await tester.tap(find.text('show'));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.text('Error occurred'), findsOneWidget);
     expect(find.byIcon(Icons.close), findsOneWidget);
