@@ -49,7 +49,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const AuthException(message: 'Failed to retrieve user');
       }
 
-      return UserModel.fromFirebaseUser(user);
+      // Refresh user profile data from Firebase
+      await user.reload();
+
+      final refreshedUser = _firebaseAuth.currentUser;
+
+      if (refreshedUser == null) {
+        throw const AuthException(message: 'Failed to refresh user data');
+      }
+
+      return UserModel(
+        uid: refreshedUser.uid,
+        email: refreshedUser.email,
+        displayName: refreshedUser.displayName ?? googleUser.displayName,
+        photoUrl: refreshedUser.photoURL,
+        isAnonymous: refreshedUser.isAnonymous,
+      );
     } on AuthException {
       rethrow;
     } on FirebaseAuthException catch (e) {

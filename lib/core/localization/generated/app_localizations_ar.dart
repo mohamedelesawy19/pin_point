@@ -97,4 +97,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get connectingToLobby => 'جارٍ الاتصال بالبارتي...';
+
+  @override
+  String get youHaveBeenKicked => 'تم طردك من البارتي';
 }

@@ -18,15 +18,22 @@ class PartyState extends Equatable {
   bool get isInLobby => status == PartyBlocStatus.inLobby;
   bool get hasLeft => status == PartyBlocStatus.left;
 
+  bool isPlayerInParty(String playerId) =>
+      party?.players.any((p) => p.uid == playerId) ?? false;
+
+  bool isPlayerKicked(String playerId) =>
+      party?.kickedPlayers.contains(playerId) ?? false;
+
   PartyState copyWith({
     PartyBlocStatus? status,
     PartyEntity? party,
+    bool clearParty = false,
     String? actionError, // pass null to clear
     bool clearActionError = false,
     bool? isActionLoading,
   }) => PartyState(
     status: status ?? this.status,
-    party: party ?? this.party,
+    party: clearParty ? null : (party ?? this.party),
     actionError: clearActionError ? null : actionError ?? this.actionError,
     isActionLoading: isActionLoading ?? this.isActionLoading,
   );

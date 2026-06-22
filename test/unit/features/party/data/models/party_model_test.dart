@@ -44,6 +44,7 @@ void main() {
       status: PartyStatus.waiting,
       settings: tPartySettingsModel,
       players: const [tPlayerModel],
+      kickedPlayers: const {},
       currentRound: 1,
       createdAt: tCreatedAt,
     );
@@ -56,6 +57,7 @@ void main() {
       status: PartyStatus.waiting,
       settings: tPartySettings,
       players: const [tPlayerEntity],
+      kickedPlayers: const {},
       currentRound: 1,
       createdAt: tCreatedAt,
     );
@@ -71,6 +73,7 @@ void main() {
           status: PartyStatus.waiting,
           settings: tPartySettingsModel,
           players: const [tPlayerModel],
+          kickedPlayers: const {},
           currentRound: 1,
           createdAt: tCreatedAt,
         ),
@@ -95,6 +98,7 @@ void main() {
             'score': 0,
           },
         ],
+        'kickedPlayers': {},
         'currentRound': 1,
         'createdAt': tCreatedAt.toIso8601String(),
       };
@@ -127,6 +131,7 @@ void main() {
             'score': 0,
           },
         ],
+        'kickedPlayers': const {},
         'currentRound': 1,
         'createdAt': tCreatedAt.toIso8601String(),
       });

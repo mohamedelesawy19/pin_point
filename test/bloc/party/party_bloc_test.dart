@@ -76,6 +76,7 @@ void main() {
       currentRound: 0,
       status: PartyStatus.waiting,
       players: const [],
+      kickedPlayers: const {},
       settings: settings,
       createdAt: DateTime.now(),
     );

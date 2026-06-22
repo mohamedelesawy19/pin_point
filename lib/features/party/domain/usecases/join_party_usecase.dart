@@ -23,8 +23,8 @@ class JoinPartyUseCase implements UseCase<String, SingleParam<String>> {
   Future<Either<Failure, String>> call(SingleParam<String> params) async {
     final userResult = await _authRepository.getCurrentUser();
 
-    return userResult.fold(
-      (failure) => Left(failure),
+    return await userResult.fold(
+      (failure) async => Left(failure),
       (user) => _partyRepository.joinParty(
         partyCode: params.value,
         player: PlayerEntity.fromUser(user),

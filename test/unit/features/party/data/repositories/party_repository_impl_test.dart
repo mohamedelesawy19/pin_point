@@ -52,6 +52,7 @@ void main() {
     partyName: 'Party',
     status: PartyStatus.waiting,
     players: const [hostPlayer],
+    kickedPlayers: const {},
     settings: settings,
     currentRound: 0,
     createdAt: DateTime(2026),

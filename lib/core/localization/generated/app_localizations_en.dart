@@ -97,4 +97,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get connectingToLobby => 'Connecting to lobby...';
+
+  @override
+  String get youHaveBeenKicked => 'You have been kicked from the party';
 }

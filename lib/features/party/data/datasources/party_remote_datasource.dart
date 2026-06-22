@@ -105,6 +105,7 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
         status: PartyStatus.waiting,
         settings: settings,
         players: [hostPlayer],
+        kickedPlayers: const {},
         currentRound: 0,
         createdAt: DateTime.now().toUtc(),
       );
@@ -138,6 +139,15 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
         if (status != PartyStatus.waiting) {
           throw const ServerException(
             message: 'Party is no longer accepting players.',
+          );
+        }
+
+        // ── Block rejoining for previously kicked players ──────────────────
+        final kickedPlayers =
+            data['kickedPlayers'] as Map<String, dynamic>? ?? {};
+        if (kickedPlayers.containsKey(player.uid)) {
+          throw const ServerException(
+            message: 'You have been removed from this party and cannot rejoin.',
           );
         }
 
@@ -226,8 +236,14 @@ class PartyRemoteDataSourceImpl implements PartyRemoteDataSource {
           );
         }
 
-        // Dot-notation + FieldValue.delete() removes only that player's entry.
-        tx.update(ref, {'${'players'}.$targetUid': FieldValue.delete()});
+        if (targetUid == hostId) {
+          throw const ServerException(message: 'Host cannot kick themselves.');
+        }
+
+        tx.update(ref, {
+          'players.$targetUid': FieldValue.delete(),
+          'kickedPlayers.$targetUid': FieldValue.serverTimestamp(),
+        });
       });
     } on ServerException {
       rethrow;

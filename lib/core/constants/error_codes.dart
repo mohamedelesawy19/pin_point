@@ -21,6 +21,14 @@ abstract final class AuthErrorCodes {
   static const watchAuthState = 'AUTH_WATCH_AUTH_STATE';
 }
 
+abstract final class UserErrorCodes {
+  static const base = 'USER_ERROR';
+  static const ensureUserProfile = 'USER_ENSURE_USER_PROFILE';
+  static const getUserProfile = 'USER_GET_USER_PROFILE';
+  static const updateDisplayName = 'USER_UPDATE_DISPLAY_NAME';
+  static const updatePhotoUrl = 'USER_UPDATE_PHOTO_URL';
+}
+
 abstract final class ServerErrorCodes {
   static const base = 'SERVER_ERROR';
 }

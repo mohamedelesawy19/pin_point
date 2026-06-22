@@ -19,6 +19,7 @@ class PartyModel extends Equatable {
     required this.status,
     required this.settings,
     required this.players,
+    required this.kickedPlayers,
     required this.currentRound,
     required this.createdAt,
   });
@@ -30,6 +31,7 @@ class PartyModel extends Equatable {
   final PartyStatus status;
   final PartySettingsModel settings;
   final List<PlayerModel> players;
+  final Set<String> kickedPlayers;
   final int currentRound;
   final DateTime createdAt;
 
@@ -50,6 +52,9 @@ class PartyModel extends Equatable {
       players: rawPlayers.values
           .map((p) => PlayerModel.fromJson(p as Map<String, dynamic>))
           .toList(growable: false),
+      kickedPlayers:
+          ((data['kickedPlayers'] as Map?)?.cast<String, dynamic>() ?? {}).keys
+              .toSet(),
       createdAt: (data['createdAt'] as Timestamp).toDate(),
     );
   }
@@ -57,6 +62,10 @@ class PartyModel extends Equatable {
   Map<String, dynamic> toFirestore() => {
     ...toJson(),
     'players': {for (final p in players) p.uid: p.toJson()}, // Override
+    'kickedPlayers': {
+      // kickPlayer() — Map<uid, timestamp>،
+      for (final uid in kickedPlayers) uid: FieldValue.serverTimestamp(),
+    },
     'createdAt': Timestamp.fromDate(createdAt),
   };
 
@@ -73,6 +82,9 @@ class PartyModel extends Equatable {
       players: (json['players'] as List<dynamic>)
           .map((player) => PlayerModel.fromJson(player as Map<String, dynamic>))
           .toList(),
+      kickedPlayers:
+          ((json['kickedPlayers'] as Map?)?.cast<String, dynamic>() ?? {}).keys
+              .toSet(),
       currentRound: json['currentRound'] as int,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
@@ -87,6 +99,7 @@ class PartyModel extends Equatable {
       'status': status.name,
       'settings': settings.toJson(),
       'players': players.map((player) => player.toJson()).toList(),
+      'kickedPlayers': {for (final uid in kickedPlayers) uid: null},
       'currentRound': currentRound,
       'createdAt': createdAt.toIso8601String(),
     };
@@ -103,6 +116,7 @@ class PartyModel extends Equatable {
       players: entity.players
           .map(PlayerModel.fromEntity)
           .toList(growable: false),
+      kickedPlayers: entity.kickedPlayers,
       currentRound: entity.currentRound,
       createdAt: entity.createdAt,
     );
@@ -119,6 +133,7 @@ class PartyModel extends Equatable {
       players: players
           .map((player) => player.toEntity())
           .toList(growable: false),
+      kickedPlayers: kickedPlayers,
       currentRound: currentRound,
       createdAt: createdAt,
     );
@@ -133,6 +148,7 @@ class PartyModel extends Equatable {
     status,
     settings,
     players,
+    kickedPlayers,
     currentRound,
     createdAt,
   ];

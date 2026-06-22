@@ -271,6 +271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connecting to lobby...'**
   String get connectingToLobby;
+
+  /// Message displayed in a snackbar when the user has been kicked from the party
+  ///
+  /// In en, this message translates to:
+  /// **'You have been kicked from the party'**
+  String get youHaveBeenKicked;
 }
 
 class _AppLocalizationsDelegate

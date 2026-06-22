@@ -52,7 +52,11 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
     Emitter<PartyState> emit,
   ) async {
     emit(
-      state.copyWith(status: PartyBlocStatus.loading, clearActionError: true),
+      state.copyWith(
+        status: PartyBlocStatus.loading,
+        clearActionError: true,
+        clearParty: true,
+      ),
     );
     final result = await _createParty(
       CreatePartyParams(partyName: event.partyName, settings: event.settings),
@@ -73,7 +77,11 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
     Emitter<PartyState> emit,
   ) async {
     emit(
-      state.copyWith(status: PartyBlocStatus.loading, clearActionError: true),
+      state.copyWith(
+        status: PartyBlocStatus.loading,
+        clearActionError: true,
+        clearParty: true,
+      ),
     );
     final result = await _joinParty(SingleParam(event.partyCode));
     result.fold(
@@ -92,7 +100,11 @@ class PartyBloc extends Bloc<PartyEvent, PartyState> {
     Emitter<PartyState> emit,
   ) async {
     emit(
-      state.copyWith(status: PartyBlocStatus.loading, clearActionError: true),
+      state.copyWith(
+        status: PartyBlocStatus.loading,
+        clearActionError: true,
+        clearParty: true,
+      ),
     );
     add(_WatchPartyEvent(partyCode: event.partyCode));
   }

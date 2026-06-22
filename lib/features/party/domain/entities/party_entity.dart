@@ -14,6 +14,7 @@ class PartyEntity extends Equatable {
     required this.status,
     required this.settings,
     required this.players,
+    required this.kickedPlayers,
     required this.currentRound,
     required this.createdAt,
   });
@@ -25,6 +26,7 @@ class PartyEntity extends Equatable {
   final PartyStatus status;
   final PartySettings settings;
   final List<PlayerEntity> players;
+  final Set<String> kickedPlayers;
   final int currentRound;
   final DateTime createdAt;
 
@@ -37,6 +39,7 @@ class PartyEntity extends Equatable {
     status,
     settings,
     players,
+    kickedPlayers,
     currentRound,
     createdAt,
   ];

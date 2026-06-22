@@ -65,6 +65,7 @@ PartyEntity _makeParty({
         _makePlayer(uid: _kHostId, name: 'Host Player'),
         _makePlayer(uid: _kGuestId, name: 'Guest Player'),
       ],
+  kickedPlayers: const {},
   settings: settings ?? _defaultSettings(),
   currentRound: 0,
   createdAt: DateTime.now(),

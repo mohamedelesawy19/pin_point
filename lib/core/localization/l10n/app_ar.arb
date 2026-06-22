@@ -122,5 +122,9 @@
   "connectingToLobby": "جارٍ الاتصال بالبارتي...",
   "@connectingToLobby": {
     "description": "النص المعروض عند الاتصال بالبارتي"
+  },
+  "youHaveBeenKicked": "تم طردك من البارتي",
+  "@youHaveBeenKicked": {
+    "description": "رسالة تظهر في شريط التنبيه عند طرد المستخدم من البارتي"
   }
 }

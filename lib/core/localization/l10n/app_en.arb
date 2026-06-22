@@ -122,5 +122,9 @@
   "connectingToLobby": "Connecting to lobby...",
   "@connectingToLobby": {
     "description": "Message displayed when the app is connecting to the game lobby"
+  },
+  "youHaveBeenKicked": "You have been kicked from the party",
+  "@youHaveBeenKicked": {
+    "description": "Message displayed in a snackbar when the user has been kicked from the party"
   }
 }

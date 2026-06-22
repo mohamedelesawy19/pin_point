@@ -85,8 +85,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
   bool _listenWhen(PartyState previous, PartyState current) {
     final statusChanged = previous.status != current.status;
     final errorChanged = previous.actionError != current.actionError;
+    final partyChanged = previous.party != current.party;
 
-    return statusChanged || errorChanged;
+    return statusChanged || errorChanged || partyChanged;
   }
 
   void _listener(BuildContext context, PartyState state) {
@@ -96,8 +97,19 @@ class _LobbyScreenState extends State<LobbyScreen> {
       return;
     }
 
-    if (state.hasLeft) {
+    if (state.hasLeft && context.mounted) {
       context.go(AppRoutes.main);
+      return;
+    }
+
+    if (state.isInLobby && state.isPlayerKicked(widget.currentUserId)) {
+      CustomSnackbar.error(
+        context: context,
+        message: context.l10n.youHaveBeenKicked,
+      );
+      if (context.mounted) {
+        context.go(AppRoutes.main);
+      }
       return;
     }
 

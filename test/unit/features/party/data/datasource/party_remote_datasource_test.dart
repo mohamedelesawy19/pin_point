@@ -499,6 +499,7 @@ void main() {
       verify(
         () => mockTransaction.update(mockDocRef, {
           'players.$_playerUid': isA<FieldValue>(),
+          'kickedPlayers.$_playerUid': isA<FieldValue>(),
         }),
       ).called(1);
     });

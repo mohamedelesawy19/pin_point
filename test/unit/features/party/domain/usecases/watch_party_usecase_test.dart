@@ -35,6 +35,7 @@ void main() {
           score: 0,
         ),
       ],
+      kickedPlayers: const {},
       partyCode: 'ABC123',
       status: PartyStatus.waiting,
       createdAt: DateTime(2026, 1, 1, 12),

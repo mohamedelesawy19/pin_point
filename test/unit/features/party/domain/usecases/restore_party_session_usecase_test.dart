@@ -74,6 +74,7 @@ void main() {
       settings: const PartySettings(roundDurationSeconds: 60, totalRounds: 5),
       status: PartyStatus.finished,
       players: const [],
+      kickedPlayers: const {},
       createdAt: DateTime.now(),
     );
 
@@ -114,6 +115,7 @@ void main() {
           score: 0,
         ),
       ],
+      kickedPlayers: const {},
       createdAt: DateTime.now(),
     );
 

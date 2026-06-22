@@ -18,6 +18,7 @@ void main() {
             totalRounds: 5,
           ),
           players: const [],
+          kickedPlayers: const {},
           currentRound: 0,
           createdAt: DateTime(2026, 1, 1, 12),
         ),
@@ -33,6 +34,7 @@ void main() {
               totalRounds: 5,
             ),
             players: const [],
+            kickedPlayers: const {},
             currentRound: 0,
             createdAt: DateTime(2026, 1, 1, 12),
           ),
@@ -49,6 +51,7 @@ void main() {
         status: PartyStatus.waiting,
         settings: const PartySettings(roundDurationSeconds: 30, totalRounds: 5),
         players: const [],
+        kickedPlayers: const {},
         currentRound: 0,
         createdAt: DateTime(2026, 1, 1, 12),
       );
@@ -61,6 +64,7 @@ void main() {
         PartyStatus.waiting,
         const PartySettings(roundDurationSeconds: 30, totalRounds: 5),
         [],
+        const <String>{},
         0,
         DateTime(2026, 1, 1, 12),
       ]);

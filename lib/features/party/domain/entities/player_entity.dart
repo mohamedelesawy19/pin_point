@@ -20,9 +20,14 @@ class PlayerEntity extends Equatable {
   final int score;
 
   factory PlayerEntity.fromUser(UserEntity user, {int score = 0}) {
+    // displayName should always be present for Google sign-in users
+    // If somehow null, use email domain or fallback to 'Anonymous'
+    final displayName =
+        user.displayName ?? (user.email?.split('@').first ?? 'Anonymous');
+
     return PlayerEntity(
       uid: user.uid,
-      displayName: user.displayName ?? 'Anonymous',
+      displayName: displayName,
       photoUrl: user.photoUrl,
       isAnonymous: user.isAnonymous,
       score: score,
