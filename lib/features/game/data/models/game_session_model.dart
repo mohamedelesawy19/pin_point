@@ -27,6 +27,46 @@ class GameSessionModel extends Equatable {
   final GameRoundModel? currentRound;
   final List<PlayerAnswerModel>? roundResults;
 
+  // ── Firestore conversions ──────────────────────────────────────────────────
+
+  factory GameSessionModel.fromFirestore(Map<String, dynamic> data) {
+    return GameSessionModel(
+      partyCode: data['partyCode'] as String,
+      hostId: data['hostId'] as String,
+      status: GameStatus.values.byName(data['status'] as String),
+      currentRoundIndex: data['currentRoundIndex'] as int,
+      totalRounds: data['totalRounds'] as int,
+      playerScores: Map<String, int>.from(data['playerScores'] as Map),
+      currentRound: data['currentRound'] != null
+          ? GameRoundModel.fromFirestore(
+              data['currentRound'] as Map<String, dynamic>,
+            )
+          : null,
+      roundResults: (data['roundResults'] as List<dynamic>?)
+          ?.map(
+            (e) => PlayerAnswerModel.fromFirestore(e as Map<String, dynamic>),
+          )
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'partyCode': partyCode,
+      'hostId': hostId,
+      'status': status.name,
+      'currentRoundIndex': currentRoundIndex,
+      'totalRounds': totalRounds,
+      'playerScores': playerScores,
+      'currentRound': currentRound?.toFirestore(),
+      'roundResults': roundResults
+          ?.map((answer) => answer.toFirestore())
+          .toList(),
+    };
+  }
+
+  // ── JSON conversions ───────────────────────────────────────────────────────
+
   factory GameSessionModel.fromJson(Map<String, dynamic> json) {
     return GameSessionModel(
       partyCode: json['partyCode'] as String,
@@ -48,16 +88,13 @@ class GameSessionModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'partyCode': partyCode,
-      'hostId': hostId,
-      'status': status.name,
-      'currentRoundIndex': currentRoundIndex,
-      'totalRounds': totalRounds,
-      'playerScores': playerScores,
+      ...toFirestore(),
       'currentRound': currentRound?.toJson(),
       'roundResults': roundResults?.map((answer) => answer.toJson()).toList(),
     };
   }
+
+  // ── Entity conversions ─────────────────────────────────────────────────────
 
   factory GameSessionModel.fromEntity(GameSessionEntity entity) {
     return GameSessionModel(

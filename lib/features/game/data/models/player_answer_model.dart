@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 // Feature imports:
@@ -27,6 +28,38 @@ class PlayerAnswerModel extends Equatable {
   final int score;
   final DateTime submittedAt;
 
+  // ── Firestore conversions ──────────────────────────────────────────────────
+
+  factory PlayerAnswerModel.fromFirestore(Map<String, dynamic> data) {
+    return PlayerAnswerModel(
+      playerId: data['playerId'] as String,
+      playerName: data['playerName'] as String,
+      photoUrl: data['photoUrl'] as String?,
+      roundIndex: data['roundIndex'] as int,
+      latitude: (data['latitude'] as num).toDouble(),
+      longitude: (data['longitude'] as num).toDouble(),
+      distanceKm: (data['distanceKm'] as num).toDouble(),
+      score: data['score'] as int,
+      submittedAt: (data['submittedAt'] as Timestamp).toDate(),
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'playerId': playerId,
+      'playerName': playerName,
+      'photoUrl': photoUrl,
+      'roundIndex': roundIndex,
+      'latitude': latitude,
+      'longitude': longitude,
+      'distanceKm': distanceKm,
+      'score': score,
+      'submittedAt': Timestamp.fromDate(submittedAt),
+    };
+  }
+
+  // ── JSON conversions ───────────────────────────────────────────────────────
+
   factory PlayerAnswerModel.fromJson(Map<String, dynamic> json) {
     return PlayerAnswerModel(
       playerId: json['playerId'] as String,
@@ -42,18 +75,10 @@ class PlayerAnswerModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'playerId': playerId,
-      'playerName': playerName,
-      'photoUrl': photoUrl,
-      'roundIndex': roundIndex,
-      'latitude': latitude,
-      'longitude': longitude,
-      'distanceKm': distanceKm,
-      'score': score,
-      'submittedAt': submittedAt.toIso8601String(),
-    };
+    return {...toFirestore(), 'submittedAt': submittedAt.toIso8601String()};
   }
+
+  // ── Entity conversions ─────────────────────────────────────────────────────
 
   factory PlayerAnswerModel.fromEntity(PlayerAnswerEntity entity) {
     return PlayerAnswerModel(

@@ -6,6 +6,9 @@
 abstract final class FirestoreConstants {
   // ── Collection ────────────────────────────────────────────────────────────
   static const String partiesCollection = 'parties';
+  static const String gameSessionsCollection = 'game_sessions';
+  static const String landmarksCollection = 'landmarks';
+  static const String answersCollection = 'answers';
 
   // ── Party-code generation ─────────────────────────────────────────────────
   static const int codeLength = 6;

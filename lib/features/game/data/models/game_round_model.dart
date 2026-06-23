@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 // Feature imports:
@@ -20,6 +21,32 @@ class GameRoundModel extends Equatable {
   final DateTime endsAt;
   final RoundStatus status;
 
+  // ── Firestore conversions ──────────────────────────────────────────────────
+
+  factory GameRoundModel.fromFirestore(Map<String, dynamic> data) {
+    return GameRoundModel(
+      roundIndex: data['roundIndex'] as int,
+      landmark: LandmarkModel.fromFirestore(
+        data['landmark'] as Map<String, dynamic>,
+      ),
+      startedAt: (data['startedAt'] as Timestamp).toDate(),
+      endsAt: (data['endsAt'] as Timestamp).toDate(),
+      status: RoundStatus.values.byName(data['status'] as String),
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'roundIndex': roundIndex,
+      'landmark': landmark.toFirestore(),
+      'startedAt': Timestamp.fromDate(startedAt),
+      'endsAt': Timestamp.fromDate(endsAt),
+      'status': status.name,
+    };
+  }
+
+  // ── JSON conversions ───────────────────────────────────────────────────────
+
   factory GameRoundModel.fromJson(Map<String, dynamic> json) {
     return GameRoundModel(
       roundIndex: json['roundIndex'] as int,
@@ -34,13 +61,14 @@ class GameRoundModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'roundIndex': roundIndex,
+      ...toFirestore(),
       'landmark': landmark.toJson(),
       'startedAt': startedAt.toIso8601String(),
       'endsAt': endsAt.toIso8601String(),
-      'status': status.name,
     };
   }
+
+  // ── Entity conversions ─────────────────────────────────────────────────────
 
   factory GameRoundModel.fromEntity(GameRoundEntity entity) {
     return GameRoundModel(
