@@ -42,23 +42,23 @@ void main() {
   final tModel = GameSessionModel(
     partyCode: 'ABC123',
     hostId: 'host1',
-    status: GameStatus.roundActive,
+    status: GameSessionStatus.roundInProgress,
     currentRoundIndex: 1,
     totalRounds: 5,
     playerScores: const {'player1': 900, 'player2': 850},
     currentRound: tRound,
-    roundResults: [tAnswer],
+    lastRoundResults: [tAnswer],
   );
 
   final tJson = {
     'partyCode': 'ABC123',
     'hostId': 'host1',
-    'status': 'roundActive',
+    'status': 'roundInProgress',
     'currentRoundIndex': 1,
     'totalRounds': 5,
     'playerScores': {'player1': 900, 'player2': 850},
     'currentRound': tRound.toJson(),
-    'roundResults': [tAnswer.toJson()],
+    'lastRoundResults': [tAnswer.toJson()],
   };
 
   group('GameSessionModel', () {
@@ -91,11 +91,11 @@ void main() {
       expect(result.totalRounds, 5);
     });
 
-    test('should handle null currentRound and roundResults', () {
+    test('should handle null currentRound and lastRoundResults', () {
       const model = GameSessionModel(
         partyCode: 'ABC123',
         hostId: 'host1',
-        status: GameStatus.initializing,
+        status: GameSessionStatus.waitingToStart,
         currentRoundIndex: 0,
         totalRounds: 5,
         playerScores: {},
@@ -106,7 +106,7 @@ void main() {
       final result = GameSessionModel.fromJson(json);
 
       expect(result.currentRound, isNull);
-      expect(result.roundResults, isNull);
+      expect(result.lastRoundResults, isNull);
     });
   });
 }

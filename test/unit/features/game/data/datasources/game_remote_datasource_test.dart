@@ -46,7 +46,7 @@ Map<String, int> get _initialScores => {_kPlayerId: 0};
 /// Seeds a minimal game session document into [firestore].
 Future<void> _seedSession(
   FakeFirebaseFirestore firestore, {
-  GameStatus status = GameStatus.initializing,
+  GameSessionStatus status = GameSessionStatus.waitingToStart,
 }) async {
   final data = GameSessionModel(
     partyCode: _kPartyCode,
@@ -110,16 +110,16 @@ void main() {
       final data = snap.data()!;
       expect(data['partyCode'], equals(_kPartyCode));
       expect(data['hostId'], equals(_kHostId));
-      expect(data['status'], equals(GameStatus.initializing.name));
+      expect(data['status'], equals(GameSessionStatus.waitingToStart.name));
       expect(data['currentRoundIndex'], equals(0));
       expect(data['totalRounds'], equals(_kTotalRounds));
       expect(data['playerScores'], equals(_initialScores));
       expect(data['currentRound'], isNull);
-      expect(data['roundResults'], isNull);
+      expect(data['lastRoundResults'], isNull);
     });
 
     test('overwrites an existing session document (idempotent)', () async {
-      await _seedSession(fakeFirestore, status: GameStatus.finished);
+      await _seedSession(fakeFirestore, status: GameSessionStatus.finished);
 
       await dataSource.initializeGameSession(
         partyCode: _kPartyCode,
@@ -133,7 +133,10 @@ void main() {
           .doc(_kPartyCode)
           .get();
 
-      expect(snap.data()!['status'], equals(GameStatus.initializing.name));
+      expect(
+        snap.data()!['status'],
+        equals(GameSessionStatus.waitingToStart.name),
+      );
     });
   });
 
@@ -158,9 +161,9 @@ void main() {
             .get();
         final data = snap.data()!;
 
-        expect(data['status'], equals(GameStatus.roundActive.name));
+        expect(data['status'], equals(GameSessionStatus.roundInProgress.name));
         expect(data['currentRoundIndex'], equals(0));
-        expect(data['roundResults'], isNull);
+        expect(data['lastRoundResults'], isNull);
 
         final round = data['currentRound'] as Map<String, dynamic>;
         expect(round['roundIndex'], equals(0));
@@ -203,7 +206,10 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   group('endRound', () {
     setUp(() async {
-      await _seedSession(fakeFirestore, status: GameStatus.roundActive);
+      await _seedSession(
+        fakeFirestore,
+        status: GameSessionStatus.roundInProgress,
+      );
 
       // Manually start a round so currentRound is populated.
       await dataSource.startRound(
@@ -282,7 +288,10 @@ void main() {
   // ───────────────────────────────────────────────────────────────────────────
   group('endGame', () {
     setUp(
-      () async => _seedSession(fakeFirestore, status: GameStatus.roundActive),
+      () async => _seedSession(
+        fakeFirestore,
+        status: GameSessionStatus.roundInProgress,
+      ),
     );
 
     test('transitions session status to finished', () async {
@@ -293,7 +302,7 @@ void main() {
           .doc(_kPartyCode)
           .get();
 
-      expect(snap.data()!['status'], equals(GameStatus.finished.name));
+      expect(snap.data()!['status'], equals(GameSessionStatus.finished.name));
     });
 
     test('does not modify other fields', () async {
@@ -411,7 +420,11 @@ void main() {
           isA<GameSessionModel>()
               .having((s) => s.partyCode, 'partyCode', _kPartyCode)
               .having((s) => s.hostId, 'hostId', _kHostId)
-              .having((s) => s.status, 'status', GameStatus.initializing),
+              .having(
+                (s) => s.status,
+                'status',
+                GameSessionStatus.waitingToStart,
+              ),
         ),
       );
     });
@@ -429,7 +442,7 @@ void main() {
           isA<GameSessionModel>().having(
             (s) => s.status,
             'status',
-            GameStatus.initializing,
+            GameSessionStatus.waitingToStart,
           ),
         ]),
       );
@@ -437,7 +450,7 @@ void main() {
       await fakeFirestore
           .collection(FirestoreConstants.gameSessionsCollection)
           .doc(_kPartyCode)
-          .update({'status': GameStatus.roundActive.name});
+          .update({'status': GameSessionStatus.roundInProgress.name});
 
       await expectLater(
         dataSource.watchGameSession(_kPartyCode),
@@ -445,7 +458,7 @@ void main() {
           isA<GameSessionModel>().having(
             (s) => s.status,
             'status',
-            GameStatus.roundActive,
+            GameSessionStatus.roundInProgress,
           ),
         ),
       );

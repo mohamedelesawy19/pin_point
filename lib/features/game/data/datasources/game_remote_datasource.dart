@@ -128,7 +128,7 @@ class GameRemoteDataSourceImpl implements GameRemoteDataSource {
       final session = GameSessionModel(
         partyCode: partyCode,
         hostId: hostId,
-        status: GameStatus.initializing,
+        status: GameSessionStatus.waitingToStart,
         currentRoundIndex: 0,
         totalRounds: totalRounds,
         playerScores: initialPlayerScores,
@@ -159,7 +159,7 @@ class GameRemoteDataSourceImpl implements GameRemoteDataSource {
         hostId: hostId,
       );
 
-      if (session.status == GameStatus.finished) {
+      if (session.status == GameSessionStatus.finished) {
         throw const ServerException(
           message: 'Cannot start a round in a finished game.',
           code: 'invalid-state',
@@ -184,10 +184,10 @@ class GameRemoteDataSourceImpl implements GameRemoteDataSource {
       );
 
       await _sessionDoc(partyCode).update({
-        'status': GameStatus.roundActive.name,
+        'status': GameSessionStatus.roundInProgress.name,
         'currentRoundIndex': roundIndex,
         'currentRound': round.toFirestore(),
-        'roundResults': null,
+        'lastRoundResults': null,
       });
     } on FirebaseException catch (e) {
       throw ServerException(
@@ -213,7 +213,7 @@ class GameRemoteDataSourceImpl implements GameRemoteDataSource {
         hostId: hostId,
       );
 
-      if (session.status != GameStatus.roundActive) {
+      if (session.status != GameSessionStatus.roundInProgress) {
         throw const ServerException(
           message: 'No active round to end.',
           code: 'invalid-state',
@@ -259,11 +259,13 @@ class GameRemoteDataSourceImpl implements GameRemoteDataSource {
         hostId: hostId,
       );
 
-      if (session.status == GameStatus.finished) {
+      if (session.status == GameSessionStatus.finished) {
         return;
       }
 
-      await _sessionDoc(partyCode).update({'status': GameStatus.finished.name});
+      await _sessionDoc(
+        partyCode,
+      ).update({'status': GameSessionStatus.finished.name});
     } on FirebaseException catch (e) {
       throw ServerException(
         message: e.message ?? 'Firestore error in endGame',

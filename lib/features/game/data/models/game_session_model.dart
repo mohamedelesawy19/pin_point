@@ -15,17 +15,17 @@ class GameSessionModel extends Equatable {
     required this.totalRounds,
     required this.playerScores,
     this.currentRound,
-    this.roundResults,
+    this.lastRoundResults,
   });
 
   final String partyCode;
   final String hostId;
-  final GameStatus status;
+  final GameSessionStatus status;
   final int currentRoundIndex;
   final int totalRounds;
   final Map<String, int> playerScores;
   final GameRoundModel? currentRound;
-  final List<PlayerAnswerModel>? roundResults;
+  final List<PlayerAnswerModel>? lastRoundResults;
 
   // ── Firestore conversions ──────────────────────────────────────────────────
 
@@ -33,7 +33,7 @@ class GameSessionModel extends Equatable {
     return GameSessionModel(
       partyCode: data['partyCode'] as String,
       hostId: data['hostId'] as String,
-      status: GameStatus.values.byName(data['status'] as String),
+      status: GameSessionStatus.values.byName(data['status'] as String),
       currentRoundIndex: data['currentRoundIndex'] as int,
       totalRounds: data['totalRounds'] as int,
       playerScores: Map<String, int>.from(data['playerScores'] as Map),
@@ -42,7 +42,7 @@ class GameSessionModel extends Equatable {
               data['currentRound'] as Map<String, dynamic>,
             )
           : null,
-      roundResults: (data['roundResults'] as List<dynamic>?)
+      lastRoundResults: (data['lastRoundResults'] as List<dynamic>?)
           ?.map(
             (e) => PlayerAnswerModel.fromFirestore(e as Map<String, dynamic>),
           )
@@ -59,7 +59,7 @@ class GameSessionModel extends Equatable {
       'totalRounds': totalRounds,
       'playerScores': playerScores,
       'currentRound': currentRound?.toFirestore(),
-      'roundResults': roundResults
+      'lastRoundResults': lastRoundResults
           ?.map((answer) => answer.toFirestore())
           .toList(),
     };
@@ -71,7 +71,7 @@ class GameSessionModel extends Equatable {
     return GameSessionModel(
       partyCode: json['partyCode'] as String,
       hostId: json['hostId'] as String,
-      status: GameStatus.values.byName(json['status'] as String),
+      status: GameSessionStatus.values.byName(json['status'] as String),
       currentRoundIndex: json['currentRoundIndex'] as int,
       totalRounds: json['totalRounds'] as int,
       playerScores: Map<String, int>.from(json['playerScores'] as Map),
@@ -80,7 +80,7 @@ class GameSessionModel extends Equatable {
               json['currentRound'] as Map<String, dynamic>,
             )
           : null,
-      roundResults: (json['roundResults'] as List<dynamic>?)
+      lastRoundResults: (json['lastRoundResults'] as List<dynamic>?)
           ?.map((e) => PlayerAnswerModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -90,7 +90,9 @@ class GameSessionModel extends Equatable {
     return {
       ...toFirestore(),
       'currentRound': currentRound?.toJson(),
-      'roundResults': roundResults?.map((answer) => answer.toJson()).toList(),
+      'lastRoundResults': lastRoundResults
+          ?.map((answer) => answer.toJson())
+          .toList(),
     };
   }
 
@@ -107,7 +109,7 @@ class GameSessionModel extends Equatable {
       currentRound: entity.currentRound != null
           ? GameRoundModel.fromEntity(entity.currentRound!)
           : null,
-      roundResults: entity.roundResults
+      lastRoundResults: entity.lastRoundResults
           ?.map(PlayerAnswerModel.fromEntity)
           .toList(),
     );
@@ -122,7 +124,9 @@ class GameSessionModel extends Equatable {
       totalRounds: totalRounds,
       playerScores: Map<String, int>.from(playerScores),
       currentRound: currentRound?.toEntity(),
-      roundResults: roundResults?.map((answer) => answer.toEntity()).toList(),
+      lastRoundResults: lastRoundResults
+          ?.map((answer) => answer.toEntity())
+          .toList(),
     );
   }
 
@@ -135,6 +139,6 @@ class GameSessionModel extends Equatable {
     totalRounds,
     playerScores,
     currentRound,
-    roundResults,
+    lastRoundResults,
   ];
 }

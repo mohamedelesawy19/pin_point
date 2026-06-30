@@ -50,7 +50,7 @@ void main() {
       const session = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.roundActive,
+        status: GameSessionStatus.roundInProgress,
         currentRoundIndex: 4,
         totalRounds: 5,
         playerScores: {},
@@ -63,7 +63,7 @@ void main() {
       const session = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.roundActive,
+        status: GameSessionStatus.roundInProgress,
         currentRoundIndex: 2,
         totalRounds: 5,
         playerScores: {},
@@ -76,7 +76,7 @@ void main() {
       const session = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.finished,
+        status: GameSessionStatus.finished,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: {'p1': 100, 'p2': 300, 'p3': 200},
@@ -95,11 +95,11 @@ void main() {
       final session = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.roundResults,
+        status: GameSessionStatus.roundEnded,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: const {},
-        roundResults: answers,
+        lastRoundResults: answers,
       );
 
       final result = session.answerForPlayer('p2');
@@ -113,11 +113,11 @@ void main() {
       final session = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.roundResults,
+        status: GameSessionStatus.roundEnded,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: const {},
-        roundResults: answers,
+        lastRoundResults: answers,
       );
 
       final result = session.answerForPlayer('unknown');
@@ -129,7 +129,7 @@ void main() {
       const session = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.roundActive,
+        status: GameSessionStatus.roundEnded,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: {},
@@ -144,23 +144,23 @@ void main() {
       final session1 = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.initializing,
+        status: GameSessionStatus.waitingToStart,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: const {'p1': 10},
         currentRound: round,
-        roundResults: answers,
+        lastRoundResults: answers,
       );
 
       final session2 = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.initializing,
+        status: GameSessionStatus.waitingToStart,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: const {'p1': 10},
         currentRound: round,
-        roundResults: answers,
+        lastRoundResults: answers,
       );
 
       expect(session1, equals(session2));
@@ -170,7 +170,7 @@ void main() {
       const session1 = GameSessionEntity(
         partyCode: 'ABC',
         hostId: 'host1',
-        status: GameStatus.initializing,
+        status: GameSessionStatus.waitingToStart,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: {'p1': 10},
@@ -179,7 +179,7 @@ void main() {
       const session2 = GameSessionEntity(
         partyCode: 'XYZ',
         hostId: 'host1',
-        status: GameStatus.initializing,
+        status: GameSessionStatus.waitingToStart,
         currentRoundIndex: 0,
         totalRounds: 3,
         playerScores: {'p1': 10},

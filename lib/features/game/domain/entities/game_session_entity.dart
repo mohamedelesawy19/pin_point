@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'game_round_entity.dart';
 import 'player_answer_entity.dart';
 
-enum GameStatus { initializing, roundActive, roundResults, finished }
+enum GameSessionStatus { waitingToStart, roundInProgress, roundEnded, finished }
 
 class GameSessionEntity extends Equatable {
   const GameSessionEntity({
@@ -16,12 +16,12 @@ class GameSessionEntity extends Equatable {
     required this.totalRounds,
     required this.playerScores,
     this.currentRound,
-    this.roundResults,
+    this.lastRoundResults,
   });
 
   final String partyCode;
   final String hostId;
-  final GameStatus status;
+  final GameSessionStatus status;
 
   /// 0-based index of the current or most recent round.
   final int currentRoundIndex;
@@ -30,18 +30,18 @@ class GameSessionEntity extends Equatable {
   /// Cumulative scores keyed by player UID.
   final Map<String, int> playerScores;
 
-  /// Present when status is roundActive or roundResults.
+  /// Present when status is roundInProgress or roundEnded.
   final GameRoundEntity? currentRound;
 
   /// Populated by the host at the end of each round.
   /// Contains processed answers with calculated distances and scores.
-  final List<PlayerAnswerEntity>? roundResults;
+  final List<PlayerAnswerEntity>? lastRoundResults;
 
   bool get isLastRound => currentRoundIndex >= totalRounds - 1;
 
   /// Returns the answer for a specific player in the current round results.
   PlayerAnswerEntity? answerForPlayer(String uid) {
-    return roundResults?.where((a) => a.playerId == uid).firstOrNull;
+    return lastRoundResults?.where((a) => a.playerId == uid).firstOrNull;
   }
 
   /// Sorted leaderboard: highest score first.
@@ -60,6 +60,6 @@ class GameSessionEntity extends Equatable {
     totalRounds,
     playerScores,
     currentRound,
-    roundResults,
+    lastRoundResults,
   ];
 }

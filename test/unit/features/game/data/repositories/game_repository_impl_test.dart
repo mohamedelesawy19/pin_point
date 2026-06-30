@@ -59,7 +59,7 @@ final _playerAnswerModel = PlayerAnswerModel.fromEntity(_playerAnswerEntity);
 const _gameSessionModel = GameSessionModel(
   partyCode: _kPartyCode,
   hostId: _kHostId,
-  status: GameStatus.initializing,
+  status: GameSessionStatus.waitingToStart,
   currentRoundIndex: 0,
   totalRounds: _kTotalRounds,
   playerScores: {_kPlayerId: 0},

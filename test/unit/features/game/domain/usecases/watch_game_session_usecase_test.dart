@@ -21,7 +21,7 @@ void main() {
     const session = GameSessionEntity(
       partyCode: 'ABC123',
       hostId: 'host_1',
-      status: GameStatus.initializing,
+      status: GameSessionStatus.waitingToStart,
       currentRoundIndex: 0,
       totalRounds: 5,
       playerScores: {'player_1': 0, 'player_2': 0},
